@@ -9,4 +9,7 @@ add_executable(transit main.cpp
                Passenger.cpp Passenger.h
                Graph.cpp Graph.h
                SubGraph.cpp SubGraph.h
-               Route.cpp Route.h)
+               Route.cpp Route.h
+               Gene.cpp Gene.h
+               Chromosome.cpp Chromosome.h
+               GeneticSolver.cpp GeneticSolver.h)
