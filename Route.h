@@ -5,17 +5,16 @@
 
 class Route {
 private:
-  using std::vector;
   int firstVertex;
-  vector<int> edgeList;
+  std::vector<int> edgeList;
 public:
   Route(int firstVertex) : firstVertex(firstVertex) { }
-  Route(int firstVertex, const vector<int> &edgeList) : Route(firstVertex),
-                                                        edgeList(edgeList) { }
+  Route(int firstVertex, const std::vector<int> &edgeList) :
+      firstVertex(firstVertex), edgeList(edgeList) { }
   int getFirstVertex() const {
     return firstVertex;
   }
-  const vector<int> &getEdgeList() const {
+  const std::vector<int> &getEdgeList() const {
     return edgeList;
   }
 };

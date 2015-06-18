@@ -5,17 +5,13 @@
 
 class Graph {
 protected:
-  using std::vector;
-  using std::size_t;
-  vector<int> adj, prev, last;
-  vector<float> weight;
+  std::vector<int> adj, prev, last;
+  std::vector<float> weight;
   int edgeCount;
 public:
   Graph() { }
-  Graph(int vertexCount) : last((size_t)vertexCount, -1), edgeCount(0) { }
-  Graph(int vertexCount, int edgeCount) : Graph(vertexCount),
-                                          adj((size_t)edgeCount, -1),
-                                          prev((size_t)edgeCount, -1) { }
+  Graph(int vertexCount, int edgeCount=0) : adj((std::size_t)edgeCount, -1),
+                                            prev((std::size_t)edgeCount, -1) { }
   int getVertexCount() const {
     return (int)last.size();
   }
