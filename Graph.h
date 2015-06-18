@@ -21,10 +21,10 @@ public:
   size_t getEdgeCount() const {
     return adj.size();
   }
-  int getAdjVertex(int edge) {
+  int getAdjVertex(int edge) const {
     return adj[edge];
   }
-  float getWeight(int edge) {
+  float getWeight(int edge) const {
     return weight[edge];
   }
   void addVertex() {

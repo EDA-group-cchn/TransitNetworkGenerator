@@ -17,10 +17,10 @@ public:
                                                  (size_t)vertexCount, -1),
                                              originalEdgeId(
                                                  (size_t)edgeCount, -1) { }
-  int getOriginalVertexId(int vertex) {
+  int getOriginalVertexId(int vertex) const {
     return originalVertexId[vertex];
   }
-  int getOriginalEdgeId(int edge) {
+  int getOriginalEdgeId(int edge) const {
     return originalEdgeId[edge];
   }
   static SubGraph generateSubGraph(const Graph &g, vector<int> vertices);
