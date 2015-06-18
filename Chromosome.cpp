@@ -4,6 +4,6 @@ Graph Chromosome::generateSolutionGraph(const Graph &original) const {
   return Graph();
 }
 
-float Chromosome::calculateCost(const Graph &original) const {
+float Chromosome::calculateCost(const std::vector<Passenger> &passengers) const {
   return 0;
 }

@@ -4,6 +4,7 @@
 #include <vector>
 
 #include "Gene.h"
+#include "Passenger.h"
 
 
 class Chromosome {
@@ -15,7 +16,7 @@ public:
     return genes[id];
   }
   Graph generateSolutionGraph(const Graph &original) const;
-  float calculateCost(const Graph &original) const;
+  float calculateCost(const std::vector<Passenger> &passengers) const;
 };
 
 
