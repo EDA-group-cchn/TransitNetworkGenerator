@@ -18,6 +18,12 @@ public:
   const BitSet &getVerticesMask() const {
     return verticesMask;
   }
+  bool getIsClosed() const {
+    return isClosed;
+  }
+  bool operator == (const Gene &other) {
+    return isClosed == other.isClosed && verticesMask == other.verticesMask;
+  }
   std::vector<int> getVerticesList() const;
   static Gene generateRandomGene(int vertexCount, bool isClosed);
   Route calculateBestRoute(const Graph &graph);
@@ -26,7 +32,8 @@ public:
 namespace std {
 template <> struct hash<Gene> {
   size_t operator()(const Gene &gene) const {
-    return hash<std::bitset<512>>()(gene.getVerticesMask());
+    return hash<std::bitset<512>>()(gene.getVerticesMask()) ^
+        hash<bool>()(gene.getIsClosed());
   }
 };
 }

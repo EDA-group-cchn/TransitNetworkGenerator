@@ -28,6 +28,12 @@ public:
     last.push_back(-1);
   }
   void addEdge(int from, int to, float weight);
+
+  template <typename Operation>
+  void forEachEdge(int vertex, Operation &&f) {
+    for (int edge = last[vertex]; edge != -1; edge = prev[edge])
+      f(edge);
+  }
 };
 
 
