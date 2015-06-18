@@ -2,7 +2,7 @@
 #define TRANSIT_PASSENGER_H
 
 
-class passenger {
+class Passenger {
 private:
   int busStopStartId, busStopEndId;
   float busStopStartDistance, busStopEndDistance;
