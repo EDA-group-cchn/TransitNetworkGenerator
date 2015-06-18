@@ -9,17 +9,18 @@ protected:
   using std::size_t;
   vector<int> adj, prev, last;
   vector<float> weight;
+  int edgeCount;
 public:
   Graph() { }
-  Graph(int vertexCount) : last((size_t)vertexCount, -1) { }
+  Graph(int vertexCount) : last((size_t)vertexCount, -1), edgeCount(0) { }
   Graph(int vertexCount, int edgeCount) : Graph(vertexCount),
-                                          adj(vertexCount, -1),
-                                          prev(vertexCount, -1) { }
-  size_t getVertexCount() const {
-    return last.size();
+                                          adj((size_t)edgeCount, -1),
+                                          prev((size_t)edgeCount, -1) { }
+  int getVertexCount() const {
+    return (int)last.size();
   }
-  size_t getEdgeCount() const {
-    return adj.size();
+  int getEdgeCount() const {
+    return edgeCount;
   }
   int getAdjVertex(int edge) const {
     return adj[edge];
