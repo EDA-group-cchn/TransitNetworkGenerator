@@ -20,13 +20,11 @@ public:
     return busStopEndDistance;
   }
 public:
-  Passenger(int busStopStartId, int busStopEndId, float busStopStartDistance,
-            float busStopEndDistance) : busStopStartId(busStopStartId),
-                                        busStopEndId(busStopEndId),
-                                        busStopStartDistance(
-                                            busStopStartDistance),
-                                        busStopEndDistance(
-                                            busStopEndDistance) { }
+  Passenger(int busStopStartId=-1, int busStopEndId=-1,
+            float busStopStartDistance=0, float busStopEndDistance=0) :
+      busStopStartId(busStopStartId), busStopEndId(busStopEndId),
+      busStopStartDistance(busStopStartDistance),
+      busStopEndDistance(busStopEndDistance) { }
 };
 
 
