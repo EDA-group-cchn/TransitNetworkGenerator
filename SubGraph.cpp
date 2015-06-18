@@ -1,5 +1,6 @@
 #include "SubGraph.h"
 
-SubGraph SubGraph::getRandomSubgraph(const Graph &g, int vertexCount) {
+
+SubGraph SubGraph::generateSubGraph(const Graph &g, std::vector<int> vertices) {
   return SubGraph();
 }

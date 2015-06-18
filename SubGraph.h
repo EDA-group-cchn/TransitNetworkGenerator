@@ -23,7 +23,7 @@ public:
   int getOriginalEdgeId(int edge) {
     return originalEdgeId[edge];
   }
-  static SubGraph getRandomSubgraph(const Graph &g, int vertexCount);
+  static SubGraph generateSubGraph(const Graph &g, vector<int> vertices);
 };
 
 
