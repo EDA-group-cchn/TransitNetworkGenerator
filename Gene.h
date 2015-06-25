@@ -21,7 +21,7 @@ public:
   bool getIsClosed() const {
     return isClosed;
   }
-  bool operator == (const Gene &other) {
+  bool operator == (const Gene &other) const {
     return isClosed == other.isClosed && verticesMask == other.verticesMask;
   }
   std::vector<int> getVerticesList() const;
