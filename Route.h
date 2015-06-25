@@ -8,9 +8,12 @@ private:
   int firstVertex;
   std::vector<int> edgeList;
 public:
-  Route(int firstVertex) : firstVertex(firstVertex) { }
+  Route(int firstVertex=-1) : firstVertex(firstVertex) { }
   Route(int firstVertex, const std::vector<int> &edgeList) :
       firstVertex(firstVertex), edgeList(edgeList) { }
+  void setFirstVertex(int firstVertex) {
+    this->firstVertex = firstVertex;
+  }
   int getFirstVertex() const {
     return firstVertex;
   }
