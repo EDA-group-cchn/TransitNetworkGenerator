@@ -4,6 +4,8 @@
 #include <vector>
 #include <unordered_map>
 
+#include "Random.h"
+#include "RoutesCache.h"
 #include "Graph.h"
 #include "Chromosome.h"
 #include "Passenger.h"
@@ -11,15 +13,16 @@
 
 class GeneticSolver {
 private:
-  typedef std::unordered_map<Gene, Route> Cache;
-  Cache routesCache;
+  RoutesCache routesCache;
   std::vector<Chromosome> generation;
+  std::vector<double> costs;
   const Graph &graph;
   const std::vector<Passenger> &passengers;
+  void generateInitialPopulation(int numRoutes, int generationSize);
 public:
   GeneticSolver(const Graph &graph, const std::vector<Passenger> &passengers) :
       graph(graph), passengers(passengers) { }
-  Chromosome solve(int numIterations);
+  Graph solve(int numRoutes, int numIterations, int generationSize);
 };
 
 
