@@ -3,6 +3,7 @@
 
 #include <vector>
 
+#include "RoutesCache.h"
 #include "Gene.h"
 #include "Passenger.h"
 
@@ -15,8 +16,14 @@ public:
   const Gene &getGene(int id) const {
     return genes[id];
   }
-  Graph generateSolutionGraph(const Graph &original) const;
-  float calculateCost(const std::vector<Passenger> &passengers) const;
+  void addGene(const Gene &gene) {
+    genes.push_back(gene);
+  }
+  Graph generateSolutionGraph(const Graph &original,
+                              RoutesCache &routesCache) const;
+  float calculateCost(const Graph &original,
+                      const std::vector<Passenger> &passengers,
+                      RoutesCache &routesCache) const;
 };
 
 
