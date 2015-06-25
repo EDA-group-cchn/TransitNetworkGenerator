@@ -14,6 +14,9 @@ private:
     Initializer() {
       omp_init_lock(&Random::lock);
     }
+    ~Initializer() {
+      omp_destroy_lock(&Random::lock);
+    }
   };
   friend class Initializer;
   static Initializer initializer;
