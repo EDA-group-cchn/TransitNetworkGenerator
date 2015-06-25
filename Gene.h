@@ -10,7 +10,7 @@
 
 class Gene {
 private:
-  typedef std::bitset<512> BitSet;
+  typedef std::bitset<256> BitSet;
   BitSet verticesMask;
   bool isClosed;
 public:
@@ -32,7 +32,7 @@ public:
 namespace std {
 template <> struct hash<Gene> {
   size_t operator()(const Gene &gene) const {
-    return hash<std::bitset<512>>()(gene.getVerticesMask()) ^
+    return hash<std::bitset<256>>()(gene.getVerticesMask()) ^
         hash<bool>()(gene.getIsClosed());
   }
 };
