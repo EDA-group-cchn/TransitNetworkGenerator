@@ -11,5 +11,6 @@ add_executable(transit main.cpp
                SubGraph.cpp SubGraph.h
                Route.cpp Route.h
                Gene.cpp Gene.h
+               RoutesCache.h
                Chromosome.cpp Chromosome.h
                GeneticSolver.cpp GeneticSolver.h)
