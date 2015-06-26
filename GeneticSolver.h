@@ -18,11 +18,18 @@ private:
   std::vector<double> costs;
   const Graph &graph;
   const std::vector<Passenger> &passengers;
-  void generateInitialPopulation(int numRoutes, int generationSize);
+  void generateInitialPopulation(size_t numRoutes, size_t generationSize);
+  void generateNextPopulation(size_t generationSize);
+  std::vector<double> generateAccumulatedDistribution();
+  size_t getBestSolutionId();
 public:
   GeneticSolver(const Graph &graph, const std::vector<Passenger> &passengers) :
       graph(graph), passengers(passengers) { }
-  Graph solve(int numRoutes, int numIterations, int generationSize);
+  Graph solve(size_t numRoutes, size_t numIterations, size_t generationSize);
+
+  Chromosome doMutation(size_t id, std::vector<double> distribution);
+
+  Chromosome doCrossOver(size_t id, std::vector<double> distribution);
 };
 
 
