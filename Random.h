@@ -3,6 +3,7 @@
 
 #include "omp.h"
 #include <random>
+#include <algorithm>
 
 
 class Random {
@@ -22,16 +23,47 @@ private:
   static Initializer initializer;
 
 public:
-  static int uniformInt(int a, int b) {
-    omp_set_lock(&lock);
-    std::uniform_int_distribution<int> distribution(a, b);
-    int ans = distribution(generator);
-    omp_unset_lock(&lock);
-    return ans;
-  }
+  template <typename T>
+  static T uniformInt(T minimum, T maximum);
+
+  template <typename T, typename D>
+  static T customDistributionInt(const std::vector<D> &accumulatedWeights,
+                                 T start = 0);
+
   static bool boolean() {
     return (bool)uniformInt(0, 1);
   }
+
+  template <typename T>
+  static T uniformFloat(T minimum, T maximum);
 };
+
+template <typename T>
+T Random::uniformInt(T minimum, T maximum) {
+  std::uniform_int_distribution<T> distribution(minimum, maximum);
+  omp_set_lock(&lock);
+  T num = distribution(generator);
+  omp_unset_lock(&lock);
+  return num;
+}
+
+template <typename T, typename D>
+T Random::customDistributionInt(const std::vector<D> &accumulatedWeights,
+                                T start) {
+  T num = std::lower_bound(accumulatedWeights.begin(),
+                           accumulatedWeights.end(),
+                           uniformFloat(0., accumulatedWeights.back()))
+          - accumulatedWeights.begin();
+  return start + num;
+}
+
+template <typename T>
+T Random::uniformFloat(T minimum, T maximum) {
+  std::uniform_real_distribution<T> distribution(minimum, maximum);
+  omp_set_lock(&lock);
+  T num = distribution(generator);
+  omp_unset_lock(&lock);
+  return num;
+}
 
 #endif //TRANSIT_RANDOM_H
