@@ -36,10 +36,15 @@ void GeneticSolver::generateNextPopulation(size_t generationSize) {
       nextGeneration[bestId] = generation[bestId];
       nextCosts[bestId] = costs[bestId];
     } else {
-      if (Random::uniformInt(0, 9) < 4)  // 40% chance of mutation
-        nextGeneration[i] = doMutation(i, distribution);
-      else
-        nextGeneration[i] = doCrossOver(i, distribution);
+      if (Random::uniformInt(0, 9) < 4) {  // 40% chance of mutation
+        nextGeneration[i] = doMutation(i);
+      } else {
+        size_t j;
+        do {
+          j = Random::customDistributionInt<size_t>(distribution);
+        } while (j == i);
+        nextGeneration[i] = doCrossOver(i, j);
+      }
       nextCosts[i] = nextGeneration[i].calculateCost(graph, passengers,
                                                      routesCache);
     }
@@ -47,8 +52,7 @@ void GeneticSolver::generateNextPopulation(size_t generationSize) {
   costs = nextCosts;
 }
 
-Chromosome GeneticSolver::doMutation(size_t id,
-                                     std::vector<double> distribution) {
+Chromosome GeneticSolver::doMutation(size_t id) {
   Chromosome &original = generation[id];
   Chromosome chromosome;
   for (size_t i = 0; i < original.size(); ++i) {
@@ -60,9 +64,18 @@ Chromosome GeneticSolver::doMutation(size_t id,
   return Chromosome();
 }
 
-Chromosome GeneticSolver::doCrossOver(size_t id,
-                                      std::vector<double> distribution) {
-  return Chromosome();
+Chromosome GeneticSolver::doCrossOver(size_t id1, size_t id2) {
+  Chromosome &c1 = generation[id1], &c2 = generation[id2];
+  size_t q1 = Random::uniformInt((c1.size() + 1) / 2, c1.size() - 1),
+      q2 = c1.size() - q1;
+  if (costs[id1] > costs[id2])
+    std::swap(q1, q2);
+  Chromosome chromosome;
+  for (size_t x : Random::manyInts<size_t>(0, c1.size(), q1))
+    chromosome.addGene(c1.getGene(x));
+  for (size_t x : Random::manyInts<size_t>(0, c2.size(), q2))
+    chromosome.addGene(c2.getGene(x));
+  return chromosome;
 }
 
 std::vector<double> GeneticSolver::generateAccumulatedDistribution() {

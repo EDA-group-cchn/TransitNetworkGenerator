@@ -26,10 +26,8 @@ public:
   GeneticSolver(const Graph &graph, const std::vector<Passenger> &passengers) :
       graph(graph), passengers(passengers) { }
   Graph solve(size_t numRoutes, size_t numIterations, size_t generationSize);
-
-  Chromosome doMutation(size_t id, std::vector<double> distribution);
-
-  Chromosome doCrossOver(size_t id, std::vector<double> distribution);
+  Chromosome doMutation(size_t id);
+  Chromosome doCrossOver(size_t id1, size_t id2);
 };
 
 
