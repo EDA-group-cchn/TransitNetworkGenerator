@@ -52,7 +52,6 @@ typename Dijkstra::route Dijkstra::getPath(index from, index to)
     {
         if (father[temp] == -1) 
         {
-            std::cout<<temp<<"  "<<from <<"\n";
             return route();
         }
         final_route[father[temp]] = std::make_pair(temp, dist[temp]);

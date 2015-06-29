@@ -77,6 +77,7 @@ int main() {
   cout<<"\n\n\nShow\n";
   for (typename Dijkstra::routes::iterator i = rs.begin(); i != rs.end(); ++i)
   {
+    std::cout<<"from" << i->first<<"\n";
     for (typename Dijkstra::route j : i->second)
     {
       for (std::pair<int, std::pair<int, int> > k : j)
