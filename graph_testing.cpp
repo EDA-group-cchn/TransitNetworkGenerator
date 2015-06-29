@@ -11,8 +11,8 @@ using namespace std;
 int main() {
 
   Graph graph(5);
-  graph.addEdge(0, 1, 1);
-  graph.addEdge(0, 2, 2);
+  graph.addEdge(0, 1, 0.1);
+  graph.addEdge(0, 2, 1.9);
   graph.addEdge(1, 2, 3);
   graph.addEdge(1, 3, 3);
   graph.addEdge(2, 4, 1);

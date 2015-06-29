@@ -13,8 +13,8 @@ struct comparator{
 
 void Dijkstra::makeDijkstra(index from)
 {
-    std::priority_queue< std::pair<int, int>, 
-                        std::vector<std::pair<int, int> >,
+    std::priority_queue< std::pair<int, float>, 
+                        std::vector<std::pair<int, float> >,
                         comparator > route_queue;
 
     for (int i = 0; i < graph.getVertexCount(); ++i)
