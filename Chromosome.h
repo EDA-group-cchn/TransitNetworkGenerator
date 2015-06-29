@@ -3,6 +3,7 @@
 
 #include <vector>
 
+#include "RoutesCache.h"
 #include "Gene.h"
 #include "Passenger.h"
 
@@ -12,11 +13,20 @@ private:
   std::vector<Gene> genes;
 public:
   Chromosome() { };
-  const Gene &getGene(int id) const {
+  size_t size() {
+    return genes.size();
+  }
+  const Gene &getGene(size_t id) const {
     return genes[id];
   }
-  Graph generateSolutionGraph(const Graph &original) const;
-  float calculateCost(const std::vector<Passenger> &passengers) const;
+  void addGene(const Gene &gene) {
+    genes.push_back(gene);
+  }
+  Graph generateSolutionGraph(const Graph &original,
+                              RoutesCache &routesCache) const;
+  float calculateCost(const Graph &original,
+                      const std::vector<Passenger> &passengers,
+                      RoutesCache &routesCache) const;
 };
 
 

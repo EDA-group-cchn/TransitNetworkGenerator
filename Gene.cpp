@@ -11,3 +11,7 @@ Gene Gene::generateRandomGene(int vertexCount, bool isClosed) {
 Route Gene::calculateBestRoute(const Graph &graph) {
   return Route(0);
 }
+
+Gene Gene::randomMutation() const {
+  return Gene(false);
+}

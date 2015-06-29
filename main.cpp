@@ -24,7 +24,7 @@ int main() {
   }
 
   GeneticSolver solver(graph, passengers);
-  Graph solution = solver.solve(0).generateSolutionGraph(graph);
+  Graph solution = solver.solve(10, 20, 16);
 
   cout << solution.getVertexCount() << ' ' << solution.getEdgeCount();
   for (u = 0; u < solution.getVertexCount(); ++u) {
