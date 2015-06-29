@@ -3,7 +3,7 @@
 
 #include "Graph.h"
 #include "GeneticSolver.h"
-#include "Dijkstra.h"
+
 
 using namespace std;
 

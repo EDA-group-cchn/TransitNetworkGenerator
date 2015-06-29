@@ -13,23 +13,23 @@ public:
     typedef int edge;
     Dijkstra(Graph & graph)  :  graph(graph){
         int n = graph.getVertexCount();
-        dist.reserve(n);
-        father.reserve(n);
+        dist.resize(n);
+        father.resize(n);
         for (int i = 0; i < n; ++i)
         {
-            father[i].reserve(n);
-            dist[i].reserve(n);
+            father[i].resize(n);
+            dist[i].resize(n);
         }
     }
     Dijkstra(Graph & graph, index from) : graph(graph)
     {
         int n = graph.getVertexCount();
-        dist.reserve(n);
-        father.reserve(n);
+        dist.resize(n);
+        father.resize(n);
         for (int i = 0; i < n; ++i)
         {
-            father[i].reserve(n);
-            dist[i].reserve(n);
+            father[i].resize(n);
+            dist[i].resize(n);
         }
         makeDijkstra(from);
 

@@ -1,12 +1,13 @@
 #include "Dijkstra.h"
 #include <vector>
 #include <queue>
+#include <algorithm>
 
 #define INF 999999
 
 struct comparator{
-    bool operator() ( std::pair<int, int> i, std::pair <int, int> j ){
-        return i.first > j.first;
+    bool operator() ( std::pair<int, float> i, std::pair <int, float> j ){
+        return i.second > j.second;
         }
 };
 
@@ -55,5 +56,8 @@ Route Dijkstra::getPath(index from, index to)
         edges.push_back(father[from][temp].second);
         temp = father[from][temp].first;
     }
+
+    std::reverse(edges.begin(), edges.end());
+
     return Route(from, edges);
 }
