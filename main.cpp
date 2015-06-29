@@ -43,9 +43,11 @@ int main() {
   graph.addEdge(1, 2, 3);
   graph.addEdge(1, 3, 3);
   graph.addEdge(2, 4, 1);
+  graph.addEdge(2, 3, 1);
   graph.addEdge(3, 2, 2);
   graph.addEdge(3, 4, 1);
-
+  graph.addEdge(2, 1, 2);
+  graph.addEdge(1, 0, 1);
   for (int i = 0 ; i< graph.getVertexCount();i++)
   {
     cout<<i;
@@ -57,11 +59,39 @@ int main() {
   }
 
   Dijkstra d(graph);
-  typename Dijkstra::route r = d.getPath(0, 4);
+  typename Dijkstra::route r = d.getPath(1, 4);
   for (typename Dijkstra::route::iterator i = r.begin(); i != r.end(); ++i)
   {
     cout<< i->first<< "-->"<<i->second.first << " accumulative weight = "<< i->second.second << endl;
   }
+
+  vector<int> a;
+  
+  a.push_back(1);
+  a.push_back(2);
+  a.push_back(4);
+
+  cout<<"Getting Routes\n";
+  typename Dijkstra::routes rs = d.getRoutes(a);
+
+  cout<<"\n\n\nShow\n";
+  for (typename Dijkstra::routes::iterator i = rs.begin(); i != rs.end(); ++i)
+  {
+    for (typename Dijkstra::route j : i->second)
+    {
+      for (std::pair<int, std::pair<int, int> > k : j)
+      {
+
+        cout<< k.first<<" "<<k.second.first<< " "<<k.second.second<<"\n";
+
+      }
+      cout<<"\n\n";
+    }
+    cout<<"\n";
+
+  }
+
+
   /* Esta parte de codigo imprime:
     0-->2 weight = 2 -->1 weight = 1 
     1-->3 weight = 3  -->2 weight = 3 

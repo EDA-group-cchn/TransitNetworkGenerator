@@ -13,17 +13,16 @@ public:
     typedef int weight;
     typedef int index;
     typedef std::map<index, std::pair <index, weight> > route;
-
+    typedef std::map<index, std::vector< route > > routes;
     Dijkstra(Graph & graph)  :  graph(graph) { }
     ~Dijkstra(){}
 
-    std::map<index, route> &getRoutes() {
-        return routes;
-    }
+    routes getRoutes(std::vector<index> idxs);
+
     route getPath(index from , index to);
 
 private:
-    std::map<index, route> routes;
+    
     const Graph &graph;
 
 };

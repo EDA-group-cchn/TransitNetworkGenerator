@@ -28,9 +28,11 @@ typename Dijkstra::route Dijkstra::getPath(index from, index to)
 
     dist[from]  = 0;
     route_queue.push(std::make_pair(from, 0));
-    while (route_queue.top().first != to)
+    int last = INF;
+    while (route_queue.top().first != to and route_queue.size() != 0)
     {
         int u  = route_queue.top().first;
+    
         for (int e: graph.getIncidentEdges(u))
         {
             int v = graph.getAdjacentVertex(e);
@@ -48,13 +50,34 @@ typename Dijkstra::route Dijkstra::getPath(index from, index to)
     index temp = to;
     while (temp != from)
     {
+        if (father[temp] == -1) 
+        {
+            std::cout<<temp<<"  "<<from <<"\n";
+            return route();
+        }
         final_route[father[temp]] = std::make_pair(temp, dist[temp]);
         temp = father[temp];
     }
 
     return final_route;
 
-    
+}
 
+typename Dijkstra::routes Dijkstra::getRoutes(std::vector<index> idxs)
+{
+    routes routes_map;
+    for(int i = 0; i < idxs.size(); ++i)
+    {
+        for (int j = 0; j < idxs.size(); ++j)
+        {
+                
+            route temp;                
+            temp = getPath(idxs[i], idxs[j]);
+            routes_map[idxs[i]].push_back(temp);
+                
+        }
+    }
+    
+    return routes_map;
 }
 
