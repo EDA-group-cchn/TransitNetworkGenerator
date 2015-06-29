@@ -15,7 +15,7 @@ add_executable(transit main.cpp
                GeneticSolver.cpp GeneticSolver.h
                Dijkstra.cpp Dijkstra.h)
 
-add_executable(graph_testing main_graph_testing.cpp
+add_executable(graph_testing graph_testing.cpp
                Passenger.cpp Passenger.h
                Graph.cpp Graph.h
                SubGraph.cpp SubGraph.h
