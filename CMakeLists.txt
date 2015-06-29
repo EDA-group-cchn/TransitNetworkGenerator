@@ -14,4 +14,4 @@ add_executable(transit main.cpp
                Random.cpp Random.h
                RoutesCache.h
                Chromosome.cpp Chromosome.h
-               GeneticSolver.cpp GeneticSolver.h)
+               GeneticSolver.cpp GeneticSolver.h TSP.cpp TSP.h)
