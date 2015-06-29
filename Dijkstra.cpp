@@ -1,7 +1,7 @@
 #include "Dijkstra.h"
-#include <iostream>
 #include <vector>
 #include <queue>
+#include <iostream>
 
 #define INF 999999
 
@@ -11,72 +11,50 @@ struct comparator{
         }
 };
 
-typename Dijkstra::route Dijkstra::getPath(index from, index to)
+void Dijkstra::makeDijkstra(index from)
 {
-    route final_route;
     std::priority_queue< std::pair<int, int>, 
                         std::vector<std::pair<int, int> >,
                         comparator > route_queue;
-    
-    vertexArray dist;
-    vertexArray father;
-    for (int i = 0 ;i < graph.getVertexCount(); ++i)
+
+    for (int i = 0; i < graph.getVertexCount(); ++i)
     {
-        dist.push_back(INF);
-        father.push_back(-1);
+        dist[from][i] = INF;
+        father[from][i] = std::make_pair(-1,-1);
     }
 
-    dist[from]  = 0;
+    dist[from][from]  = 0;
     route_queue.push(std::make_pair(from, 0));
     int last = INF;
-    while (route_queue.top().first != to and route_queue.size() != 0)
-    {
+
+    while (route_queue.size() != 0){
+    
         int u  = route_queue.top().first;
     
-        for (int e: graph.getIncidentEdges(u))
-        {
+        for (int e: graph.getIncidentEdges(u)){
+            
             int v = graph.getAdjacentVertex(e);
-            if (dist[v] > (dist[u] + graph.getWeight(e)))
-            {
+            if (dist[from][v] > (dist[from][u] + graph.getWeight(e))){
                 
-                dist[v] = dist[u] + graph.getWeight(e);
-                father[v] = u;
-                route_queue.push(std::make_pair(v, dist[v]));
+                dist[from][v] = dist[from][u] + graph.getWeight(e);
+                father[from][v] = std::make_pair(u, e);
+
+                route_queue.push(std::make_pair(v, dist[from][v]));
             }
         }
+
         route_queue.pop();
     }
-
-    index temp = to;
-    while (temp != from)
-    {
-        if (father[temp] == -1) 
-        {
-            return route();
-        }
-        final_route[father[temp]] = std::make_pair(temp, dist[temp]);
-        temp = father[temp];
-    }
-
-    return final_route;
-
 }
 
-typename Dijkstra::routes Dijkstra::getRoutes(std::vector<index> idxs)
+Route Dijkstra::getPath(index from, index to)
 {
-    routes routes_map;
-    for(int i = 0; i < idxs.size(); ++i)
+    index temp = to;
+    std::vector<int> edges;
+    while(temp != from)
     {
-        for (int j = 0; j < idxs.size(); ++j)
-        {
-                
-            route temp;                
-            temp = getPath(idxs[i], idxs[j]);
-            routes_map[idxs[i]].push_back(temp);
-                
-        }
+        edges.push_back(father[from][temp].second);
+        temp = father[from][temp].first;
     }
-    
-    return routes_map;
+    return Route(from, edges);
 }
-
