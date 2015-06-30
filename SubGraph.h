@@ -1,23 +1,37 @@
 #ifndef TRANSIT_SUBGRAPH_H
 #define TRANSIT_SUBGRAPH_H
 
-
+#include "Dijkstra.h"
 #include "Graph.h"
 #include "Route.h"
+#include <vector>
 
 class SubGraph : public Graph {
 private:
   std::vector<int> originalVertexId;
+  Dijkstra originalDijkstra;
+  const Graph &graph;
 public:
-  SubGraph() : Graph() { }
-  SubGraph(int vertexCount) :
+  SubGraph(const Graph &graph, int vertexCount,
+           std::vector<int> vertices) :
       Graph(vertexCount),
-      originalVertexId((std::size_t)vertexCount, -1) { }
+      graph(graph),
+      originalVertexId((std::size_t)vertexCount, -1),
+      originalDijkstra(graph) {
+        for (int i = 0 ; i < vertices.size(); ++i){
+          originalVertexId[i] = vertices[i];
+          originalDijkstra.makeDijkstra(vertices[i]);
+          for(int j = 0; j < vertices.size(); ++j){
+            addEdge(i, j, originalDijkstra.getWeight(vertices[i],
+                    vertices[j]));
+          }
+        }
+      }
   int getOriginalVertexId(int vertex) const {
     return originalVertexId[vertex];
   }
-  static SubGraph generateSubGraph(const Graph &g, std::vector<int> vertices);
-  Route getOriginalRoute(const Graph &g, const Route &r);
+  
+  Route getOriginalRoute(const Route &r);
 };
 
 

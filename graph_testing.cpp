@@ -52,7 +52,7 @@ int main() {
   idx.push_back(3);
   vector<int> holi;
   cout<<"----------\nSubgraph\n----------\n";
-  SubGraph sg = SubGraph::generateSubGraph(graph,idx);
+  SubGraph sg(graph, 4, idx);
   Dijkstra ds(sg);
   
   
@@ -63,7 +63,7 @@ int main() {
 cout<<"\n\n\n";
   ds.makeDijkstra(1);
   Route sroute = ds.getPath(1, 2);
-  Route orig_route = sg.getOriginalRoute(graph, sroute);
+  Route orig_route = sg.getOriginalRoute(sroute);
   vector<int> orig_ed = orig_route.getEdgeList();
   for (std::vector<int>::iterator i = orig_ed.begin(); i != orig_ed.end(); ++i)
   {
