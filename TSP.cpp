@@ -24,7 +24,7 @@ std::pair<float, std::vector<short> > TSP::run(bool isClosed){
     return std::make_pair(weight, route);
 }
 
-float TSP::tsp(int pos, long long bitmask, bool isClosed) {
+float TSP::tsp(int pos, int bitmask, bool isClosed) {
     if (bitmask == (1 << (nVertices + 1)) - 1)
         return (isClosed) ? dist[pos][0] : 0;
     if (memo[pos][bitmask] != -1)

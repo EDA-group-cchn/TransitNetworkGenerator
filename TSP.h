@@ -12,7 +12,7 @@ private:
     long long parent[1 << 20];
     float memo[20][1 << 20];
 
-    float tsp(int pos, long long bitmask, bool isClosed);
+    float tsp(int pos, int bitmask, bool isClosed);
 public:
     TSP(Graph graph);
 
