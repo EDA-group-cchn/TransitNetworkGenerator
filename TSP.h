@@ -8,7 +8,7 @@
 
 class TSP {
 private:
-    long long child[20][1 << 20];
+    int child[20][1 << 20];
     float memo[20][1 << 20];
     const Graph graph;
 
