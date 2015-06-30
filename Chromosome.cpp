@@ -4,22 +4,19 @@ Graph Chromosome::generateSolutionGraph(const Graph &original,
                                          RoutesCache &routesCache) const {
   
   Graph new_graph(original.getVertexCount());
-  for (const Gene &g : genes)
-  {
+  for (const Gene &g : genes) {
     Route r;
-    if (routesCache.check(g)){
-        r = routesCache.get(g);
-    }
-    else{
-        r = g.calculateBestRoute(original);
-        routesCache.add(g, r);
+    if (routesCache.check(g)) {
+      r = routesCache.get(g);
+    } else{
+      r = g.calculateBestRoute(original);
+      routesCache.add(g, r);
     }
     int from = r.getFirstVertex();
     std::vector<int> edges = r.getEdgeList();
-    for(int e : edges)
-    {
-        new_graph.addEdge(from, original.getAdjacentVertex(e),
-                          original.getWeight(e));
+    for(int e : edges) {
+      new_graph.addEdge(from, original.getAdjacentVertex(e),
+                        original.getWeight(e));
     }
 
   }
