@@ -8,13 +8,13 @@
 class TSP {
 private:
     float dist[20][20];
-    long long parent[20][1 << 20];
+    long long child[20][1 << 20];
     float memo[20][1 << 20];
-    Graph * graph;
+    const Graph * graph;
 
     float tsp(int pos, int bitmask, bool isClosed);
 public:
-    TSP(Graph *graph);
+    TSP(const Graph &graph);
 
     std::pair<float, std::vector<short> > run(bool isClosed);
 };
