@@ -15,7 +15,7 @@ public:
   SubGraph(const Graph &graph, std::vector<int> vertices) :
             Graph(vertices.size()),
             graph(graph),
-            originalVertexId((std::size_t)vertices.size(), -1),
+            originalVertexId(vertices.size(), -1),
             originalDijkstra(graph) {
               for (int i = 0 ; i < vertices.size(); ++i){
               originalVertexId[i] = vertices[i];
