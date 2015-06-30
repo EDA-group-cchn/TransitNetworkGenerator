@@ -29,6 +29,7 @@ public:
   int getAdjacentVertex(int edge) const {
     return adj[edge];
   }
+  int searchEdge(int from, int to) const;
   float getWeight(int edge) const {
     return weight[edge];
   }

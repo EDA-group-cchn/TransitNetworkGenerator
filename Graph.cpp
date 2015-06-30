@@ -11,3 +11,11 @@ void Graph::addEdge(int from, int to, float weight) {
 IncidenceEdgeList Graph::getIncidentEdges(int vertex) const {
   return IncidenceEdgeList(vertex, *this);
 }
+
+int Graph::searchEdge(int from, int to) const {
+  for(int e : getIncidentEdges(from))
+    if(getAdjacentVertex(e) == to)
+      return e;
+
+  return -1;
+}
