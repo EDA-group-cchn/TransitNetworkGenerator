@@ -1,24 +1,26 @@
 #include "TSP.h"
 
-TSP::TSP(const Graph &graph) : graph(graph) { }
+TSP::TSP(const Graph &graph) : graph(graph) {
+    std::fill(memo[0], memo[0] + sizeof memo, -1);
+}
 
-std::pair<float, std::vector<short> > TSP::run(bool isClosed){
-    float weight = tsp(0, 1, isClosed);
-    std::vector<short> route;
+Route TSP::run(bool isClosed){
+    tsp(0, 1, isClosed);
+    std::vector<int> route;
 
-    short vertex = 0,
+    int vertex = 0,
     mask = 1 << 0;
     for (int i = 0; i < graph.getVertexCount(); ++i) {
-        vertex = child[vertex][mask];
-        route.push_back(vertex);
+        vertex = graph.getAdjacentVertex(child[vertex][mask]);
+        route.push_back(child[vertex][mask]);
         mask == 1 << vertex;
     }
-    return std::make_pair(weight, route);
+    return Route(0, route);
 }
 
 float TSP::tsp(int pos, int bitmask, bool isClosed) {
-    if (bitmask == (1 << (graph.getVertexCount() + 1)) - 1)
-        return (isClosed) ? dist[pos][0] : 0;
+    if (bitmask == (1 << graph.getVertexCount()) - 1)
+        return (isClosed) ? graph.getWeight(graph.searchEdge(pos, 0)) : 0;
     if (memo[pos][bitmask] != -1)
         return memo[pos][bitmask];
 
@@ -31,7 +33,7 @@ float TSP::tsp(int pos, int bitmask, bool isClosed) {
             tmp = graph.getWeight(e) + tsp(nxt, bitmask | (1 << nxt), isClosed);
             if(ans < tmp) {
                 ans = tmp;
-                child[pos][bitmask] = nxt;
+                child[pos][bitmask] = e;
             }
         }
     }
