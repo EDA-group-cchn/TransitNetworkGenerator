@@ -4,7 +4,7 @@ Graph Chromosome::generateSolutionGraph(const Graph &original,
                                          RoutesCache &routesCache) const {
   
   Graph new_graph(original.getVertexCount());
-  for (Gene g : genes)
+  for (const Gene &g : genes)
   {
     Route r;
     if (routesCache.check(g)){
