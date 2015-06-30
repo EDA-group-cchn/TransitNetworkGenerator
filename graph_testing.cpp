@@ -5,6 +5,7 @@
 #include "GeneticSolver.h"
 #include "Dijkstra.h"
 #include "Route.h"
+#include "SubGraph.h"
 
 using namespace std;
 
@@ -43,74 +44,33 @@ int main() {
     cout<< graph.getAdjacentVertex(*i) <<endl;
     
   }
-/*
-  vector<int> a;
+
+  vector<int> idx;
+  idx.push_back(0);
+  idx.push_back(1);
+  idx.push_back(4);
+  idx.push_back(3);
+  vector<int> holi;
+  cout<<"----------\nSubgraph\n----------\n";
+  SubGraph sg = SubGraph::generateSubGraph(graph,idx);
+  Dijkstra ds(sg);
   
-  a.push_back(1);
-  a.push_back(2);
-  a.push_back(4);
-
-  cout<<"Getting Routes\n";
-  typename Dijkstra::routes rs = d.getRoutes(a);
-
-  cout<<"\n\n\nShow\n";
-  for (typename Dijkstra::routes::iterator i = rs.begin(); i != rs.end(); ++i)
+  
+  for(int i = 0; i< sg.getVertexCount();i++)
   {
-    std::cout<<"from" << i->first<<"\n";
-    for (typename Dijkstra::route j : i->second)
-    {
-      for (std::pair<int, std::pair<int, int> > k : j)
-      {
-
-        cout<< k.first<<" "<<k.second.first<< " "<<k.second.second<<"\n";
-
-      }
-      cout<<"\n\n";
-    }
-    cout<<"\n";
-
+    cout<<sg.getOriginalVertexId(i);
   }
-*/
+cout<<"\n\n\n";
+  ds.makeDijkstra(1);
+  Route sroute = ds.getPath(1, 2);
+  Route orig_route = sg.getOriginalRoute(graph, sroute);
+  vector<int> orig_ed = orig_route.getEdgeList();
+  for (std::vector<int>::iterator i = orig_ed.begin(); i != orig_ed.end(); ++i)
+  {
+    cout<< graph.getAdjacentVertex(*i) <<endl;
+    
+  }
 
-/* 0-->2 weight = 2 -->1 weight = 1 
-1-->0 weight = 1  -->3 weight = 3 -->2 weight = 3 
-2-->1 weight = 2  -->3 weight = 1 -->4 weight = 1 
-3-->4 weight = 1  -->2 weight = 2 
-4
-1-->2 accumulative weight = 3
-2-->4 accumulative weight = 4
-Getting Routes
-
-
-
-Show
-from1
-
-
-1 2 3
-
-
-1 2 3
-2 4 4
-
-
-
-from2
-2 1 2
-
-
-
-
-2 4 1
-
-
-
-from4
-
-
-
-
-*/
 
   return 0;
 }

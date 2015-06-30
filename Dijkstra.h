@@ -11,7 +11,7 @@ public:
     typedef float weight;
     typedef int index;
     typedef int edge;
-    Dijkstra(Graph & graph)  :  graph(graph){
+    Dijkstra(const Graph & graph)  :  graph(graph){
         int n = graph.getVertexCount();
         dist.resize(n);
         father.resize(n);
@@ -21,7 +21,7 @@ public:
             dist[i].resize(n);
         }
     }
-    Dijkstra(Graph & graph, index from) : graph(graph)
+    Dijkstra(const Graph & graph, index from) : graph(graph)
     {
         int n = graph.getVertexCount();
         dist.resize(n);

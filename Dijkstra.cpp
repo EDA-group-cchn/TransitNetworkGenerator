@@ -2,6 +2,7 @@
 #include <vector>
 #include <queue>
 #include <algorithm>
+#include <limits>
 
 #define INF 999999
 
@@ -19,7 +20,7 @@ void Dijkstra::makeDijkstra(index from)
 
     for (int i = 0; i < graph.getVertexCount(); ++i)
     {
-        dist[from][i] = INF;
+        dist[from][i] = std::numeric_limits<float>::max();;
         father[from][i] = std::make_pair(-1,-1);
     }
 

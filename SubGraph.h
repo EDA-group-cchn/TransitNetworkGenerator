@@ -3,24 +3,21 @@
 
 
 #include "Graph.h"
+#include "Route.h"
 
 class SubGraph : public Graph {
 private:
   std::vector<int> originalVertexId;
-  std::vector<int> originalEdgeId;
 public:
   SubGraph() : Graph() { }
-  SubGraph(int vertexCount, int edgeCount=0) :
-      Graph(vertexCount, edgeCount),
-      originalVertexId((std::size_t)vertexCount, -1),
-      originalEdgeId((std::size_t)edgeCount, -1) { }
+  SubGraph(int vertexCount) :
+      Graph(vertexCount),
+      originalVertexId((std::size_t)vertexCount, -1) { }
   int getOriginalVertexId(int vertex) const {
     return originalVertexId[vertex];
   }
-  int getOriginalEdgeId(int edge) const {
-    return originalEdgeId[edge];
-  }
   static SubGraph generateSubGraph(const Graph &g, std::vector<int> vertices);
+  Route getOriginalRoute(const Graph &g, const Route &r);
 };
 
 
