@@ -10,7 +10,7 @@ private:
     float dist[20][20];
     long long child[20][1 << 20];
     float memo[20][1 << 20];
-    const Graph * graph;
+    const Graph graph;
 
     float tsp(int pos, int bitmask, bool isClosed);
 public:
