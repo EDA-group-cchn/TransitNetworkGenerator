@@ -13,7 +13,7 @@ private:
   const Graph &graph;
 public:
   SubGraph(const Graph &graph, std::vector<int> vertices) :
-            Graph(vertices.size()),
+            Graph((int)vertices.size()),
             graph(graph),
             originalVertexId(vertices.size(), -1),
             originalDijkstra(graph) {

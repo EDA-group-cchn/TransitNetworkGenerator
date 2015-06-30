@@ -8,7 +8,7 @@ Gene Gene::generateRandomGene(int vertexCount, bool isClosed) {
   return Gene(isClosed);
 }
 
-Route Gene::calculateBestRoute(const Graph &graph) {
+Route Gene::calculateBestRoute(const Graph &graph) const {
   return Route(0);
 }
 
