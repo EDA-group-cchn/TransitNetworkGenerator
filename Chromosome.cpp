@@ -12,6 +12,7 @@ Graph Chromosome::generateSolutionGraph(const Graph &original,
     }
     else{
         r = g.calculateBestRoute(original);
+        routesCache.add(g, r);
     }
     int from = r.getFirstVertex();
     std::vector<int> edges = r.getEdgeList();
