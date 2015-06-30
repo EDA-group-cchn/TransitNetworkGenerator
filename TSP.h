@@ -7,14 +7,14 @@
 
 class TSP {
 private:
-    short nVertices;
     float dist[20][20];
-    long long parent[1 << 20];
+    long long parent[20][1 << 20];
     float memo[20][1 << 20];
+    Graph * graph;
 
     float tsp(int pos, int bitmask, bool isClosed);
 public:
-    TSP(Graph graph);
+    TSP(Graph *graph);
 
     std::pair<float, std::vector<short> > run(bool isClosed);
 };
