@@ -12,18 +12,17 @@ private:
   Dijkstra originalDijkstra;
   const Graph &graph;
 public:
-  SubGraph(const Graph &graph, int vertexCount,
-           std::vector<int> vertices) :
-      Graph(vertexCount),
-      graph(graph),
-      originalVertexId((std::size_t)vertexCount, -1),
-      originalDijkstra(graph) {
-        for (int i = 0 ; i < vertices.size(); ++i){
-          originalVertexId[i] = vertices[i];
-          originalDijkstra.makeDijkstra(vertices[i]);
-          for(int j = 0; j < vertices.size(); ++j){
-            addEdge(i, j, originalDijkstra.getWeight(vertices[i],
-                    vertices[j]));
+  SubGraph(const Graph &graph, std::vector<int> vertices) :
+            Graph(vertices.size()),
+            graph(graph),
+            originalVertexId((std::size_t)vertices.size(), -1),
+            originalDijkstra(graph) {
+              for (int i = 0 ; i < vertices.size(); ++i){
+              originalVertexId[i] = vertices[i];
+              originalDijkstra.makeDijkstra(vertices[i]);
+              for(int j = 0; j < vertices.size(); ++j){
+                addEdge(i, j,
+                  originalDijkstra.getWeight(vertices[i],vertices[j]));
           }
         }
       }

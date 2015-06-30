@@ -52,7 +52,7 @@ int main() {
   idx.push_back(3);
   vector<int> holi;
   cout<<"----------\nSubgraph\n----------\n";
-  SubGraph sg(graph, 4, idx);
+  SubGraph sg(graph, idx);
   Dijkstra ds(sg);
   
   
