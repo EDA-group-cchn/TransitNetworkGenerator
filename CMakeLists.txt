@@ -14,4 +14,15 @@ add_executable(transit main.cpp
                Random.cpp Random.h
                RoutesCache.h
                Chromosome.cpp Chromosome.h
-               GeneticSolver.cpp GeneticSolver.h)
+               GeneticSolver.cpp GeneticSolver.h
+               Dijkstra.cpp Dijkstra.h)
+
+add_executable(graph_testing graph_testing.cpp
+               Passenger.cpp Passenger.h
+               Graph.cpp Graph.h
+               SubGraph.cpp SubGraph.h
+               Route.cpp Route.h
+               Gene.cpp Gene.h
+               Chromosome.cpp Chromosome.h
+               GeneticSolver.cpp GeneticSolver.h
+               Dijkstra.cpp Dijkstra.h)

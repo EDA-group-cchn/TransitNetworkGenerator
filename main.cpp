@@ -13,10 +13,13 @@ int main() {
   Graph graph(n, m);
   int u, v;
   float w1, w2;
+  cout<<"Graph Edges"<<endl;
   for (int i = 0; i < m; ++i) {
     cin >> u >> v >> w1;
     graph.addEdge(u, v, w1);
   }
+
+  cout<<"Passenger"<<endl;
   vector<Passenger> passengers(p);
   for (int i = 0; i < p; ++i) {
     cin >> u >> v >> w1 >> w2;
@@ -33,5 +36,6 @@ int main() {
       cout << ' ' << solution.getAdjacentVertex(e);
     cout << endl;
   }
+
   return 0;
 }
