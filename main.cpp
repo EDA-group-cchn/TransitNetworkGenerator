@@ -27,13 +27,15 @@ int main() {
   }
 
   GeneticSolver solver(graph, passengers);
-  Graph solution = solver.solve(10, 20, 16);
+  vector<Route> solution = solver.solve(10, 20, 16);
 
-  cout << solution.getVertexCount() << ' ' << solution.getEdgeCount();
-  for (u = 0; u < solution.getVertexCount(); ++u) {
-    cout << u << ':';
-    for (int e : solution.getIncidentEdges(u))
-      cout << ' ' << solution.getAdjacentVertex(e);
+  for (const Route &route : solution) {
+    v = route.getFirstVertex();
+    cout << v;
+    for (int e : route.getEdgeList()) {
+      v= graph.getAdjacentVertex(e);
+      cout << ' ' << v;
+    }
     cout << endl;
   }
 

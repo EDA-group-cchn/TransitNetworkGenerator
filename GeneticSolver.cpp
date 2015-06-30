@@ -1,12 +1,15 @@
 #include "GeneticSolver.h"
 
-Graph GeneticSolver::solve(size_t numRoutes, size_t numIterations,
-                           size_t generationSize) {
+std::vector<Route> GeneticSolver::solve(size_t numRoutes, size_t numIterations,
+                                        size_t generationSize) {
   generateInitialPopulation(numRoutes, generationSize);
   for (int it = 0; it < numIterations; ++it)
     generateNextPopulation(generationSize);
-  return generation[getBestSolutionId()].generateSolutionGraph(graph,
-                                                               routesCache);
+  Chromosome &solutionChromosome = generation[getBestSolutionId()];
+  std::vector<Route> solution(numRoutes);
+  for (size_t i = 0; i < numRoutes; ++i)
+    solution[i] = routesCache.get(solutionChromosome.getGene(i));
+  return solution;
 }
 
 void GeneticSolver::generateInitialPopulation(size_t numRoutes,
