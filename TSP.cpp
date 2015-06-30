@@ -3,7 +3,7 @@
 TSP::TSP(Graph graph) {
     nVertices = graph.getVertexCount();
 
-    for(int i=0;i<nVertices;i++) {
+    for(int i=0; i<nVertices; ++i) {
         for (int e : graph.getIncidentEdges(i)) {
             int v = graph.getAdjacentVertex(e);
             dist[i][v] = graph.getWeight(e);
@@ -16,7 +16,7 @@ std::pair<float, std::vector<short> > TSP::run(bool isClosed){
     std::vector<short> route;
 
     long long bitmask = (1 << (nVertices + 1)) - 1;
-    for(int i=0;i<nVertices;i++)
+    for(int i=0; i<nVertices; ++i)
     {
         bitmask = parent[bitmask];
         route.push_back(bitmask);
