@@ -13,31 +13,31 @@ Route TSP::run(bool isClosed){
     for (int i = 0; i < graph.getVertexCount(); ++i) {
         vertex = graph.getAdjacentVertex(child[vertex][mask]);
         route.push_back(child[vertex][mask]);
-        mask == 1 << vertex;
+        mask |= 1 << vertex;
     }
     return Route(0, route);
 }
 
-float TSP::tsp(int pos, int bitmask, bool isClosed) {
-    if (bitmask == (1 << graph.getVertexCount()) - 1)
+float TSP::tsp(int pos, int bitMask, bool isClosed) {
+    if (bitMask == (1 << graph.getVertexCount()) - 1)
         return (isClosed) ? graph.getWeight(graph.searchEdge(pos, 0)) : 0;
-    if (memo[pos][bitmask] != -1)
-        return memo[pos][bitmask];
+    if (memo[pos][bitMask] != -1)
+        return memo[pos][bitMask];
 
     float ans = std::numeric_limits<float>::max();
     float tmp;
 
     for (int e : graph.getIncidentEdges(pos)) {
         int nxt = graph.getAdjacentVertex(e);
-        if (nxt != pos && !(bitmask & (1 << nxt))) {
-            tmp = graph.getWeight(e) + tsp(nxt, bitmask | (1 << nxt), isClosed);
+        if (nxt != pos && !(bitMask & (1 << nxt))) {
+            tmp = graph.getWeight(e) + tsp(nxt, bitMask | (1 << nxt), isClosed);
             if(ans < tmp) {
                 ans = tmp;
-                child[pos][bitmask] = e;
+                child[pos][bitMask] = e;
             }
         }
     }
 
-    memo[pos][bitmask] = ans;
-    return memo[pos][bitmask];
+    memo[pos][bitMask] = ans;
+    return memo[pos][bitMask];
 }

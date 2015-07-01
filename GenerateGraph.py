@@ -8,12 +8,12 @@ def knn_search(query, data, k):
     return idx[1:k + 1]
 
 
-def generateGraph(vertexCount, minEedge):
+def generateGraph(vertexCount, minEdge):
     graph = dict()
     points = random.rand(2, vertexCount)
     for x in range(vertexCount):
         edge_num = math.floor(random.random() * 10) % 10 + \
-            minEedge
+            minEdge
         graph[x] = []
         query = points[:, x:x + 1]
         nearest = knn_search(query, points, edge_num)
@@ -56,8 +56,6 @@ def main():
     passengersCount = raw_input()
     graph = generateGraph(vertexCount, 4)
     passengers = generatePassenger(passengersCount, vertexCount)
-#   print graph
-#   print passengers
     writeFile("test.txt", graph, vertexCount,
               passengers, passengersCount)
 

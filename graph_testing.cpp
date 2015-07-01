@@ -2,9 +2,7 @@
 #include <vector>
 
 #include "Graph.h"
-#include "GeneticSolver.h"
 #include "Dijkstra.h"
-#include "Route.h"
 #include "SubGraph.h"
 
 using namespace std;
@@ -50,7 +48,6 @@ int main() {
   idx.push_back(1);
   idx.push_back(4);
   idx.push_back(3);
-  vector<int> holi;
   cout<<"----------\nSubgraph\n----------\n";
   SubGraph sg(graph, idx);
   Dijkstra ds(sg);

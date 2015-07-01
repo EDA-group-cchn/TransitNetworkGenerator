@@ -12,8 +12,7 @@ Route SubGraph::getOriginalRoute(const Route &r)
     for (int i = 0 ; i < edges.size(); ++i){
         tmp_to = getOriginalVertexId(graph.getAdjacentVertex(edges[i]));
         Route tmp_route = originalDijkstra.getPath(tmp_from, tmp_to);
-        std::vector<int> tmp_ed = tmp_route.getEdgeList();
-        edges_result.insert(edges_result.end(), 
+        edges_result.insert(edges_result.end(),
                             tmp_route.getEdgeList().begin(),
                             tmp_route.getEdgeList().end()) ;
         tmp_from = tmp_to;

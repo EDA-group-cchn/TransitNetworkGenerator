@@ -20,7 +20,7 @@ int main() {
   }
 
   cout<<"Passenger"<<endl;
-  vector<Passenger> passengers(p);
+  vector<Passenger> passengers((size_t) p);
   for (int i = 0; i < p; ++i) {
     cin >> u >> v >> w1 >> w2;
     passengers[i] = Passenger(u, v, w1, w2);

@@ -12,7 +12,7 @@ private:
     float memo[20][1 << 20];
     const Graph graph;
 
-    float tsp(int pos, int bitmask, bool isClosed);
+    float tsp(int pos, int bitMask, bool isClosed);
 public:
     TSP(const Graph &graph);
 
