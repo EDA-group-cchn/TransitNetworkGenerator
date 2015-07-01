@@ -22,7 +22,7 @@ void GeneticSolver::generateInitialPopulation(size_t numRoutes,
     for (int j = 0; j < numRoutes; ++j) {
       int numStops = Random::uniformInt(10, 20);
       bool closedRoute = Random::boolean();
-      chromosome.addGene(Gene::generateRandomGene(numStops, closedRoute));
+      chromosome.addGene(Gene::generateRandomGene(numStops, graph.getVertexCount(), closedRoute));
     }
     costs[i] = chromosome.calculateCost(graph, passengers, routesCache);
   }
