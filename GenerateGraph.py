@@ -1,10 +1,9 @@
-from numpy import random, argsort, sqrt, ndarray
+from numpy import random, argsort, sqrt
 import math
 
 
 def knn_search(query, data, k):
-    data_n = data.shape[1]
-    sqd = sqrt(((data - query[:, :data_n]) ** 2).sum(axis=0))
+    sqd = sqrt(((data - query) ** 2).sum(axis=0))
     idx = argsort(sqd)
     return idx[1:k + 1]
 
@@ -16,12 +15,10 @@ def generateGraph(vertexCount, minEedge):
         edge_num = math.floor(random.random() * 10) % 10 + \
             minEedge
         graph[x] = []
-        query = ndarray(shape=(2, 1))
-        query[0, 0] = points[0, x]
-        query[1, 0] = points[1, x]
+        query = points[:, x:x + 1]
         nearest = knn_search(query, points, edge_num)
         for idx in nearest:
-            graph[x].append((idx, random.random() * 10 % 5))
+            graph[x].append((idx, random.random() * 10))
     return graph
 
 
@@ -55,12 +52,12 @@ def writeFile(filename, graph, vertexCount, passengers, passengersCount):
 
 
 def main():
-    vertexCount = 20
-    passengersCount = 3
+    vertexCount = raw_input()
+    passengersCount = raw_input()
     graph = generateGraph(vertexCount, 4)
     passengers = generatePassenger(passengersCount, vertexCount)
-    print graph
-    print passengers
+#   print graph
+#   print passengers
     writeFile("test.txt", graph, vertexCount,
               passengers, passengersCount)
 
