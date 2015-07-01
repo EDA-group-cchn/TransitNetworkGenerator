@@ -6,6 +6,8 @@
 
 #include "SubGraph.h"
 #include "Route.h"
+#include "TSP.h"
+#include "Random.h"
 
 
 class Gene {

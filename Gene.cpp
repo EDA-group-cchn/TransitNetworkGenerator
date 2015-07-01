@@ -1,15 +1,38 @@
 #include "Gene.h"
 
 std::vector<int> Gene::getVerticesList() const {
-  return std::vector<int>();
+  std::vector<int> vertices;
+  for(int i=0; i<verticesMask.size(); ++i)
+    if(verticesMask[i])
+      vertices.push_back(i);
+
+  return vertices;
 }
 
 Gene Gene::generateRandomGene(int vertexCount, bool isClosed) {
-  return Gene(isClosed);
+  Random rnd;
+
+  BitSet set;
+  short used = 0;
+  for(int i=0; i<set.size(); ++i) {
+
+    set[i] = false;
+
+    if(vertexCount > used)
+      if(rnd.boolean())
+        set[i] = true;
+  }
+
+  Gene gene(isClosed);
+  gene.verticesMask = set;
+  return gene;
 }
 
 Route Gene::calculateBestRoute(const Graph &graph) const {
-  return Route(0);
+  SubGraph subGraph(graph, getVerticesList());
+  TSP tsp(subGraph);
+  Route route = tsp.run(isClosed);
+  return route;
 }
 
 Gene Gene::randomMutation() const {
