@@ -10,8 +10,6 @@ std::vector<int> Gene::getVerticesList() const {
 }
 
 Gene Gene::generateRandomGene(int vertexCount, bool isClosed) {
-  Random rnd;
-
   BitSet set;
   short used = 0;
   for(int i=0; i<set.size(); ++i) {
@@ -19,7 +17,7 @@ Gene Gene::generateRandomGene(int vertexCount, bool isClosed) {
     set[i] = false;
 
     if(vertexCount > used)
-      if(rnd.boolean())
+      if(Random::boolean())
         set[i] = true;
   }
 
@@ -32,7 +30,7 @@ Route Gene::calculateBestRoute(const Graph &graph) const {
   SubGraph subGraph(graph, getVerticesList());
   TSP tsp(subGraph);
   Route route = tsp.run(isClosed);
-  return route;
+  return subGraph.getOriginalRoute(route);
 }
 
 Gene Gene::randomMutation() const {
