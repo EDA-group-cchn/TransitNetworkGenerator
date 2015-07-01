@@ -9,12 +9,12 @@ std::vector<int> Gene::getVerticesList() const {
   return vertices;
 }
 
-Gene Gene::generateRandomGene(int vertexCount, bool isClosed) {
+Gene Gene::generateRandomGene(int vertexCount, int verticesNumber,  bool isClosed) {
   BitSet set;
 
   short tmp;
   for(int i=0; i<vertexCount; ++i) {
-    tmp = Random::uniformInt(0,255);
+    tmp = Random::uniformInt(0, verticesNumber - 1);
 
     if(set[tmp])
       --i;
