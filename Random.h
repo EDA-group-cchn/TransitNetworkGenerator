@@ -1,7 +1,6 @@
 #ifndef TRANSIT_RANDOM_H
 #define TRANSIT_RANDOM_H
 
-#include "omp.h"
 #include <random>
 #include <algorithm>
 #include <set>
@@ -9,20 +8,7 @@
 
 class Random {
 private:
-  static omp_lock_t lock;
   static std::mt19937 generator;
-  class Initializer {
-  public:
-    Initializer() {
-      omp_init_lock(&Random::lock);
-    }
-    ~Initializer() {
-      omp_destroy_lock(&Random::lock);
-    }
-  };
-  friend class Initializer;
-  static Initializer initializer;
-
 public:
   template <typename T>
   static T uniformInt(T minimum, T maximum);
@@ -45,9 +31,9 @@ public:
 template <typename T>
 T Random::uniformInt(T minimum, T maximum) {
   std::uniform_int_distribution<T> distribution(minimum, maximum);
-  omp_set_lock(&lock);
-  T num = distribution(generator);
-  omp_unset_lock(&lock);
+  T num;
+  #pragma omp critical(random)
+  num = distribution(generator);
   return num;
 }
 
@@ -77,9 +63,9 @@ std::vector<T> Random::manyInts(T minimum, T maximum, size_t quantity) {
 template <typename T>
 T Random::uniformFloat(T minimum, T maximum) {
   std::uniform_real_distribution<T> distribution(minimum, maximum);
-  omp_set_lock(&lock);
-  T num = distribution(generator);
-  omp_unset_lock(&lock);
+  T num;
+  #pragma omp critical(random)
+  num = distribution(generator);
   return num;
 }
 
