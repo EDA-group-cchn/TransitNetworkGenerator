@@ -11,14 +11,14 @@ std::vector<int> Gene::getVerticesList() const {
 
 Gene Gene::generateRandomGene(int vertexCount, bool isClosed) {
   BitSet set;
-  short used = 0;
-  for(int i=0; i<set.size(); ++i) {
 
-    set[i] = false;
+  for(int i=0; i<20; ++i) {
+    short tmp = Random::uniformInt(0,255);
 
-    if(vertexCount > used)
-      if(Random::boolean())
-        set[i] = true;
+    if(set[tmp])
+      --i;
+
+    set[tmp] = true;
   }
 
   Gene gene(isClosed);
