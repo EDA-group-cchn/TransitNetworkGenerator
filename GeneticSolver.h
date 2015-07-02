@@ -14,13 +14,13 @@
 class GeneticSolver {
 private:
   RoutesCache routesCache;
-  std::vector<Chromosome> generation;
-  std::vector<double> costs;
+  std::vector<Chromosome> generation, nextGeneration;
+  std::vector<double> costs, nextCosts, distribution;
   const Graph &graph;
   const std::vector<Passenger> &passengers;
   void generateInitialPopulation(size_t numRoutes, size_t generationSize);
   void generateNextPopulation(size_t generationSize);
-  std::vector<double> generateAccumulatedDistribution();
+  void generateAccumulatedDistribution();
   size_t getBestSolutionId();
 public:
   GeneticSolver(const Graph &graph, const std::vector<Passenger> &passengers) :

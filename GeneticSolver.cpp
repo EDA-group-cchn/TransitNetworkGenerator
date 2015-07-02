@@ -2,9 +2,17 @@
 
 std::vector<Route> GeneticSolver::solve(size_t numRoutes, size_t numIterations,
                                         size_t generationSize) {
-  generateInitialPopulation(numRoutes, generationSize);
-  for (int it = 0; it < numIterations; ++it)
-    generateNextPopulation(generationSize);
+  generation.resize(generationSize);
+  nextGeneration.resize(generationSize);
+  costs.resize(generationSize);
+  nextCosts.resize(generationSize);
+  distribution.resize(generationSize);
+  #pragma omp parallel
+  {
+    generateInitialPopulation(numRoutes, generationSize);
+    for (int it = 0; it < numIterations; ++it)
+      generateNextPopulation(generationSize);
+  }
   Chromosome &solutionChromosome = generation[getBestSolutionId()];
   std::vector<Route> solution(numRoutes);
   for (size_t i = 0; i < numRoutes; ++i)
@@ -14,9 +22,7 @@ std::vector<Route> GeneticSolver::solve(size_t numRoutes, size_t numIterations,
 
 void GeneticSolver::generateInitialPopulation(size_t numRoutes,
                                               size_t generationSize) {
-  generation.resize(generationSize);
-  costs.resize(generationSize);
-  #pragma omp parallel for
+  #pragma omp for schedule(dynamic)
   for (int i = 0; i < generationSize; ++i) {
     Chromosome &chromosome = generation[i];
     for (int j = 0; j < numRoutes; ++j) {
@@ -29,12 +35,12 @@ void GeneticSolver::generateInitialPopulation(size_t numRoutes,
 }
 
 void GeneticSolver::generateNextPopulation(size_t generationSize) {
-  std::vector<Chromosome> nextGeneration(generationSize);
-  std::vector<double> nextCosts(generationSize);
-  std::vector<double> distribution = generateAccumulatedDistribution();
   size_t bestId = getBestSolutionId();
-  #pragma omp parallel for
-  for (size_t i = 0; i < generationSize; ++i)
+  #pragma omp master
+  generateAccumulatedDistribution();
+  #pragma omp barrier
+  #pragma omp for schedule(dynamic)
+  for (size_t i = 0; i < generationSize; ++i) {
     if (i == bestId) {  // conserving the best
       nextGeneration[bestId] = generation[bestId];
       nextCosts[bestId] = costs[bestId];
@@ -51,8 +57,12 @@ void GeneticSolver::generateNextPopulation(size_t generationSize) {
       nextCosts[i] = nextGeneration[i].calculateCost(graph, passengers,
                                                      routesCache);
     }
-  generation = nextGeneration;
-  costs = nextCosts;
+  }
+  #pragma omp master
+  {
+    std::copy(generation.begin(), nextGeneration.begin(), nextGeneration.end());
+    std::copy(costs.begin(), nextCosts.begin(), nextCosts.end());
+  }
 }
 
 Chromosome GeneticSolver::doMutation(size_t id) {
@@ -81,14 +91,12 @@ Chromosome GeneticSolver::doCrossOver(size_t id1, size_t id2) {
   return chromosome;
 }
 
-std::vector<double> GeneticSolver::generateAccumulatedDistribution() {
-  std::vector<double> distribution(costs.size());
+void GeneticSolver::generateAccumulatedDistribution() {
   double acc = 0;
   for (size_t i = 0; i < costs.size(); ++i) {
     acc += 1 / costs[i];
     distribution[i] = acc;
   }
-  return distribution;
 }
 
 size_t GeneticSolver::getBestSolutionId() {
