@@ -10,13 +10,12 @@ struct comparator{
 void Dijkstra::makeDijkstra(index from)
 {
   std::priority_queue< std::pair<int, float>,
-      std::vector<std::pair<int, float>>,
-      comparator > route_queue;
+      std::vector<std::pair<int, float>>, comparator> route_queue;
 
-  std::vector<bool> seen((size_t) graph->getVertexCount());
+  std::vector<bool> seen(graph->getVertexCount());
 
   for (int i = 0; i < graph->getVertexCount(); ++i) {
-    dist[from][i] = std::numeric_limits<float>::max();;
+    dist[from][i] = std::numeric_limits<float>::max();
     father[from][i] = std::make_pair(-1,-1);
   }
 

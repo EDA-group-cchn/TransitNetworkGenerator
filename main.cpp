@@ -8,7 +8,6 @@
 using namespace std;
 
 int main() {
-  freopen("test.txt", "r", stdin);
   int n, m, p;
   cin >> n >> m >> p;
   Graph graph((size_t) n, (size_t) m);
