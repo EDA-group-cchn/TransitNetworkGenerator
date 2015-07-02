@@ -28,7 +28,7 @@ void GeneticSolver::generateInitialPopulation(size_t numRoutes,
   for (int i = 0; i < generationSize; ++i) {
     Chromosome *chromosome = new Chromosome;
     for (int j = 0; j < numRoutes; ++j) {
-      size_t numStops = Random::uniformInt(10ul, 18ul);
+      size_t numStops = Random::uniformInt(10ul, 17ul);
       bool closedRoute = Random::boolean();
       chromosome->addGene(Gene::generateRandomGene(
           numStops, graph->getVertexCount(), closedRoute));
@@ -43,16 +43,30 @@ void GeneticSolver::generateNextPopulation(size_t generationSize) {
   {
     bestId = getBestSolutionId();
     generateAccumulatedDistribution();
-    std::cerr << costs[bestId] << std::endl;
+    size_t worstId = 0;
+    double total = 0;
+    for (size_t i = 0; i < generationSize; ++i) {
+      total += costs[i];
+      if (costs[i] > costs[worstId])
+        worstId = i;
+    }
+    std::cerr << "mean: " << total / generationSize << "\tbest: " <<
+        costs[bestId] << "\tworst: " << costs[worstId] << std::endl;
   }
   #pragma omp barrier
   #pragma omp for schedule(dynamic)
   for (size_t i = 0; i < generationSize; ++i) {
     if (i == bestId) {  // conserving the best
-      nextGeneration[bestId] = new Chromosome(*generation[bestId]);
-      nextCosts[bestId] = costs[bestId];
+      if (Random::uniformInt(0, 99) < 2) {  // 2% chance of mutation
+        nextGeneration[i] = doMutation(i);
+        nextCosts[i] = nextGeneration[i]->calculateCost(graph, passengers,
+                                                        routesCache);
+      } else {
+        nextGeneration[bestId] = new Chromosome(*generation[bestId]);
+        nextCosts[bestId] = costs[bestId];
+      }
     } else {
-      if (Random::uniformInt(0, 9) < 4) {  // 40% chance of mutation
+      if (Random::uniformInt(0, 9) < 2) {  // 20% chance of mutation
         nextGeneration[i] = doMutation(i);
       } else {
         size_t j;
@@ -78,7 +92,7 @@ Chromosome * GeneticSolver::doMutation(size_t id) {
   Chromosome *original = generation[id];
   Chromosome *chromosome = new Chromosome;
   for (size_t i = 0; i < original->size(); ++i) {
-    if (Random::uniformInt(0, 9) < 3)  // 30% chance to mutate a gene
+    if (Random::uniformInt(0, 9) < 4)  // 40% chance to mutate a gene
       chromosome->addGene(original->getGene(i)
                               .randomMutation(graph->getVertexCount()));
     else
@@ -89,7 +103,7 @@ Chromosome * GeneticSolver::doMutation(size_t id) {
 
 Chromosome * GeneticSolver::doCrossOver(size_t id1, size_t id2) {
   Chromosome *c1 = generation[id1], *c2 = generation[id2];
-  size_t q1 = Random::uniformInt((c1->size() + 1) / 2, c1->size() - 1),
+  size_t q1 = Random::uniformInt((c1->size() + 5) / 2, c1->size() - 1),
       q2 = c1->size() - q1;
   if (costs[id1] > costs[id2])
     std::swap(q1, q2);
