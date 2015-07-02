@@ -14,7 +14,7 @@
 class GeneticSolver {
 private:
   RoutesCache routesCache;
-  std::vector<Chromosome> generation, nextGeneration;
+  std::vector<Chromosome *> generation, nextGeneration;
   std::vector<double> costs, nextCosts, distribution;
   const Graph &graph;
   const std::vector<Passenger> &passengers;
@@ -27,8 +27,8 @@ public:
       graph(graph), passengers(passengers) { }
   std::vector<Route> solve(size_t numRoutes, size_t numIterations,
                            size_t generationSize);
-  Chromosome doMutation(size_t id);
-  Chromosome doCrossOver(size_t id1, size_t id2);
+  Chromosome *doMutation(size_t id);
+  Chromosome *doCrossOver(size_t id1, size_t id2);
 };
 
 

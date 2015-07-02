@@ -13,6 +13,9 @@ private:
   std::vector<Gene> genes;
 public:
   Chromosome() { };
+  Chromosome(const Chromosome &other) {
+    genes = other.genes;
+  }
   size_t size() {
     return genes.size();
   }
