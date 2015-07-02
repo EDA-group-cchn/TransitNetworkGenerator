@@ -1,6 +1,7 @@
 #ifndef TRANSIT_GENETICSOLVER_H
 #define TRANSIT_GENETICSOLVER_H
 
+#include <iostream>
 #include <vector>
 #include <unordered_map>
 
@@ -18,6 +19,7 @@ private:
   std::vector<double> costs, nextCosts, distribution;
   const Graph *graph;
   const std::vector<Passenger> &passengers;
+  size_t bestId;
   void generateInitialPopulation(size_t numRoutes, size_t generationSize);
   void generateNextPopulation(size_t generationSize);
   void generateAccumulatedDistribution();

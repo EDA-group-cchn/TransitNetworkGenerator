@@ -27,9 +27,10 @@ public:
     return isClosed == other.isClosed && verticesMask == other.verticesMask;
   }
   std::vector<int> getVerticesList() const;
-  static Gene generateRandomGene(int vertexCount, int verticesNumber, bool isClosed);
+  static Gene generateRandomGene(size_t vertexCount, size_t totalVertexCount,
+                                 bool isClosed);
   Route calculateBestRoute(const Graph *graph) const;
-  Gene randomMutation() const;
+  Gene randomMutation(size_t vertexCount) const;
 };
 
 namespace std {
