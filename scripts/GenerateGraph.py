@@ -1,4 +1,7 @@
+#!/usr/bin/env python2
+
 from numpy import random, argsort, sqrt
+from sys import argv
 import math
 
 
@@ -12,7 +15,7 @@ def generateGraph(vertexCount, minEdge):
     graph = dict()
     points = random.rand(2, vertexCount)
     for x in range(vertexCount):
-        edge_num = math.floor(random.random() * 10) % 10 + \
+        edge_num = int(random.random() * 10) % 10 + \
             minEdge
         graph[x] = []
         query = points[:, x:x + 1]
@@ -36,24 +39,22 @@ def generatePassenger(passengerCount, vertexCount):
 
 def writeFile(filename, graph, vertexCount, passengers, passengersCount):
     file = open(filename, 'wb')
-    file.write(str(vertexCount) + "\n" + str(passengersCount) +
-               "\n")
+    edgeCount = 0
+    for x in graph:
+        edgeCount += len(graph[x])
+    file.write("%d %d %d\n" % (vertexCount, edgeCount, passengersCount))
     for x in graph:
         for y in graph[x]:
-            file.write(str(x) + " " + str(y[0]) + " " +
-                       str(y[1]) + "\n")
+            file.write("%d %d %f\n" % (x, y[0], y[1]))
     file.write("\n")
     for x in passengers:
-        file.write(str(passengers[x][0]) + " " +
-                   str(passengers[x][1]) + " " +
-                   str(passengers[x][2]) + " " +
-                   str(passengers[x][3]) + "\n")
+        file.write("%d %d %f %f\n" % tuple(passengers[x]))
     file.close()
 
 
 def main():
-    vertexCount = raw_input()
-    passengersCount = raw_input()
+    vertexCount = int(argv[1])
+    passengersCount = int(argv[2])
     graph = generateGraph(vertexCount, 4)
     passengers = generatePassenger(passengersCount, vertexCount)
     writeFile("test.txt", graph, vertexCount,
