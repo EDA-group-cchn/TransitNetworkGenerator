@@ -20,8 +20,11 @@ private:
   const Graph *graph;
   const std::vector<Passenger> &passengers;
   size_t bestId;
-  void generateInitialPopulation(size_t numRoutes, size_t generationSize);
-  void generateNextPopulation(size_t generationSize);
+  void generateInitialPopulation(size_t numRoutes,
+                                                size_t generationSize,
+                                                Random &random);
+  void generateNextPopulation(size_t generationSize,
+                                             Random &random);
   void generateAccumulatedDistribution();
   size_t getBestSolutionId();
 public:
@@ -29,8 +32,8 @@ public:
       graph(graph), passengers(passengers) { }
   std::vector<Route> solve(size_t numRoutes, size_t numIterations,
                            size_t generationSize);
-  Chromosome *doMutation(size_t id);
-  Chromosome *doCrossOver(size_t id1, size_t id2);
+  Chromosome *doMutation(size_t id, Random &random);
+  Chromosome *doCrossOver(size_t id1, size_t id2, Random &random);
 };
 
 

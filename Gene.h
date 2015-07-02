@@ -28,9 +28,9 @@ public:
   }
   std::vector<int> getVerticesList() const;
   static Gene generateRandomGene(size_t vertexCount, size_t totalVertexCount,
-                                 bool isClosed);
+                                 bool isClosed, Random &random);
   Route calculateBestRoute(const Graph *graph) const;
-  Gene randomMutation(size_t vertexCount) const;
+  Gene randomMutation(size_t vertexCount, Random &random) const;
 };
 
 namespace std {

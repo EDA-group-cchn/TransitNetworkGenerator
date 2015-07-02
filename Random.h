@@ -8,33 +8,30 @@
 
 class Random {
 private:
-  static std::mt19937 generator;
+  std::mt19937 generator;
 public:
   template <typename T>
-  static T uniformInt(T minimum, T maximum);
+  T uniformInt(T minimum, T maximum);
 
   template <typename T, typename D>
-  static T customDistributionInt(const std::vector<D> &accumulatedWeights,
+  T customDistributionInt(const std::vector<D> &accumulatedWeights,
                                  T start = 0);
 
   template <typename T>
-  static std::vector<T> manyInts(T minimum, T maximum, size_t quantity);
+  std::vector<T> manyInts(T minimum, T maximum, size_t quantity);
 
-  static bool boolean() {
+  bool boolean() {
     return (bool)uniformInt(0, 1);
   }
 
   template <typename T>
-  static T uniformFloat(T minimum, T maximum);
+  T uniformFloat(T minimum, T maximum);
 };
 
 template <typename T>
 T Random::uniformInt(T minimum, T maximum) {
   std::uniform_int_distribution<T> distribution(minimum, maximum);
-  T num;
-  #pragma omp critical(random)
-  num = distribution(generator);
-  return num;
+  return distribution(generator);
 }
 
 template <typename T, typename D>
@@ -63,10 +60,7 @@ std::vector<T> Random::manyInts(T minimum, T maximum, size_t quantity) {
 template <typename T>
 T Random::uniformFloat(T minimum, T maximum) {
   std::uniform_real_distribution<T> distribution(minimum, maximum);
-  T num;
-  #pragma omp critical(random)
-  num = distribution(generator);
-  return num;
+  return distribution(generator);
 }
 
 #endif //TRANSIT_RANDOM_H

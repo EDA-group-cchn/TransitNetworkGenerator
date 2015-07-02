@@ -10,11 +10,11 @@ std::vector<int> Gene::getVerticesList() const {
 }
 
 Gene Gene::generateRandomGene(size_t vertexCount, size_t totalVertexCount,
-                              bool isClosed) {
+                              bool isClosed, Random &random) {
   Gene gene(isClosed);
 
   for (size_t i = 0; i < vertexCount; ++i) {
-    size_t tmp = Random::uniformInt(0ul, totalVertexCount - 1);
+    size_t tmp = random.uniformInt(0ul, totalVertexCount - 1);
     if (gene.verticesMask.test(tmp))
       --i;
     else
@@ -31,15 +31,15 @@ Route Gene::calculateBestRoute(const Graph *graph) const {
   return subGraph.getOriginalRoute(route);
 }
 
-Gene Gene::randomMutation(size_t vertexCount) const {
+Gene Gene::randomMutation(size_t vertexCount, Random &random) const {
   Gene gene = *this;
-  if (Random::uniformInt(0, 9) < 9) {  // 90% chance of moving
+  if (random.uniformInt(0, 9) < 9) {  // 90% chance of moving
     size_t i, j;
     do {
-      i = Random::uniformInt(0ul, vertexCount - 1);
+      i = random.uniformInt(0ul, vertexCount - 1);
     } while (not verticesMask.test(i));
     do {
-      j = Random::uniformInt(0ul, vertexCount - 1);
+      j = random.uniformInt(0ul, vertexCount - 1);
     } while (verticesMask.test(j));
     gene.verticesMask.reset(i);
     gene.verticesMask.set(j);
