@@ -34,18 +34,10 @@ public:
   float getWeight(int edge) const {
     return weight[edge];
   }
-  void addVertex() {
-    last.push_back(-1);
-  }
   void addEdge(int from, int to, float weight);
 
   IncidenceEdgeList getIncidentEdges(int vertex) const;
 
-  template <typename Operation>
-  void forEachIncidentEdge(int vertex, Operation &&f) {
-    for (int edge = last[vertex]; edge != -1; edge = prev[edge])
-      f(edge);
-  }
 };
 
 
