@@ -18,7 +18,7 @@ public:
   }
   bool check(const Gene &gene) {
     omp_set_lock(&lock);
-    bool found = cache.find(gene) == cache.end();
+    bool found = cache.find(gene) != cache.end();
     omp_unset_lock(&lock);
     return found;
   }
