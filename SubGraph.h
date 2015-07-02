@@ -10,9 +10,9 @@ class SubGraph : public Graph {
 private:
   std::vector<int> originalVertexId;
   Dijkstra originalDijkstra;
-  const Graph &graph;
+  const Graph *graph;
 public:
-  SubGraph(const Graph &graph, std::vector<int> vertices) :
+  SubGraph(const Graph *graph, std::vector<int> vertices) :
             Graph((int)vertices.size()),
             graph(graph),
             originalVertexId(vertices.size(), -1),

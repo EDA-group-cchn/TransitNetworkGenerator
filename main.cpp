@@ -8,9 +8,10 @@
 using namespace std;
 
 int main() {
+  freopen("test.txt", "r", stdin);
   int n, m, p;
   cin >> n >> m >> p;
-  Graph graph(n, m);
+  Graph graph((size_t) n, (size_t) m);
   int u, v;
   float w1, w2;
   for (int i = 0; i < m; ++i) {
@@ -24,7 +25,7 @@ int main() {
     passengers[i] = Passenger(u, v, w1, w2);
   }
 
-  GeneticSolver solver(graph, passengers);
+  GeneticSolver solver(&graph, passengers);
   vector<Route> solution = solver.solve(10, 20, 16);
 
   for (const Route &route : solution) {

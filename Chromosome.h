@@ -12,7 +12,7 @@ class Chromosome {
 private:
   std::vector<Gene> genes;
 public:
-  Chromosome() { };
+  Chromosome() { }
   Chromosome(const Chromosome &other) {
     genes = other.genes;
   }
@@ -25,11 +25,11 @@ public:
   void addGene(const Gene &gene) {
     genes.push_back(gene);
   }
-  Graph generateSolutionGraph(const Graph &original,
+  Graph generateSolutionGraph(const Graph *original,
                               RoutesCache &routesCache) const;
-  float calculateCost(const Graph &original,
-                      const std::vector<Passenger> &passengers,
-                      RoutesCache &routesCache) const;
+  double calculateCost(const Graph *original,
+                       const std::vector<Passenger> &passengers,
+                       RoutesCache &routesCache) const;
 };
 
 

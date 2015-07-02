@@ -16,14 +16,14 @@ private:
   RoutesCache routesCache;
   std::vector<Chromosome *> generation, nextGeneration;
   std::vector<double> costs, nextCosts, distribution;
-  const Graph &graph;
+  const Graph *graph;
   const std::vector<Passenger> &passengers;
   void generateInitialPopulation(size_t numRoutes, size_t generationSize);
   void generateNextPopulation(size_t generationSize);
   void generateAccumulatedDistribution();
   size_t getBestSolutionId();
 public:
-  GeneticSolver(const Graph &graph, const std::vector<Passenger> &passengers) :
+  GeneticSolver(const Graph *graph, const std::vector<Passenger> &passengers) :
       graph(graph), passengers(passengers) { }
   std::vector<Route> solve(size_t numRoutes, size_t numIterations,
                            size_t generationSize);

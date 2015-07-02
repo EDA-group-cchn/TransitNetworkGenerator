@@ -9,28 +9,29 @@
 #include <limits>
 
 
-class Dijkstra
-{
-public:
+class Dijkstra {
+private:
   typedef float weight;
   typedef int index;
   typedef int edge;
-  Dijkstra(const Graph & graph)  :  graph(graph) {
-    int n = graph.getVertexCount();
-    dist.resize((std::size_t)n);
-    father.resize((std::size_t)n);
-    for (int i = 0; i < n; ++i)
-    {
-      father[i].resize((std::size_t)n);
-      dist[i].resize((std::size_t)n);
+  std::vector<std::vector<weight> > dist;
+  std::vector<std::vector< std::pair <index, edge > > > father;
+  const Graph *graph;
+
+public:
+  Dijkstra(const Graph *graph) : graph(graph) {
+    size_t n = graph->getVertexCount();
+    dist.resize(n);
+    father.resize(n);
+    for (size_t i = 0; i < n; ++i) {
+      father[i].resize(n);
+      dist[i].resize(n);
     }
   }
-  Dijkstra(const Graph & graph, index from) : Dijkstra(graph)
-  {
+  Dijkstra(const Graph *graph, index from) : Dijkstra(graph) {
     makeDijkstra(from);
   }
   ~Dijkstra(){}
-
 
   void makeDijkstra(index from);
 
@@ -39,12 +40,6 @@ public:
   }
 
   Route getPath(index from, index to);
-
-
-private:
-  std::vector<std::vector<weight> > dist;
-  std::vector<std::vector< std::pair <index, edge > > > father;
-  const Graph &graph;
 
 };
 

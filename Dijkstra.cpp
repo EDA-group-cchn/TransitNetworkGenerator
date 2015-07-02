@@ -13,10 +13,9 @@ void Dijkstra::makeDijkstra(index from)
       std::vector<std::pair<int, float>>,
       comparator > route_queue;
 
-  std::vector<bool> seen((size_t)graph.getVertexCount());
+  std::vector<bool> seen((size_t) graph->getVertexCount());
 
-  for (int i = 0; i < graph.getVertexCount(); ++i)
-  {
+  for (int i = 0; i < graph->getVertexCount(); ++i) {
     dist[from][i] = std::numeric_limits<float>::max();;
     father[from][i] = std::make_pair(-1,-1);
   }
@@ -31,12 +30,12 @@ void Dijkstra::makeDijkstra(index from)
       continue;
     seen[u] = true;
 
-    for (int e : graph.getIncidentEdges(u)) {
+    for (int e : graph->getIncidentEdges(u)) {
 
-      int v = graph.getAdjacentVertex(e);
-      if (dist[from][v] > (dist[from][u] + graph.getWeight(e))){
+      int v = graph->getAdjacentVertex(e);
+      if (dist[from][v] > (dist[from][u] + graph->getWeight(e))) {
 
-        dist[from][v] = dist[from][u] + graph.getWeight(e);
+        dist[from][v] = dist[from][u] + graph->getWeight(e);
         father[from][v] = std::make_pair(u, e);
 
         route_queue.push(std::make_pair(v, dist[from][v]));

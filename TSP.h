@@ -8,15 +8,16 @@
 
 class TSP {
 private:
-    int child[20][1 << 20];
-    float memo[20][1 << 20];
-    const Graph graph;
+  int **child;
+  float **memo;
+  const Graph *graph;
 
-    float tsp(int pos, int bitMask, bool isClosed);
+  float tsp(int pos, int bitMask, bool isClosed);
 public:
-    TSP(const Graph &graph);
+  TSP(const Graph *graph);
+  ~TSP();
 
-    Route run(bool isClosed);
+  Route run(bool isClosed);
 };
 
 

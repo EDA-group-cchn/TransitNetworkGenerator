@@ -26,14 +26,14 @@ void GeneticSolver::generateInitialPopulation(size_t numRoutes,
                                               size_t generationSize) {
   #pragma omp for schedule(dynamic)
   for (int i = 0; i < generationSize; ++i) {
-    Chromosome *chromosome = generation[i] = new Chromosome;
+    Chromosome *chromosome = new Chromosome;
     for (int j = 0; j < numRoutes; ++j) {
-      int numStops = Random::uniformInt(10, 20);
+      int numStops = Random::uniformInt(8, 12);
       bool closedRoute = Random::boolean();
-      chromosome->addGene(Gene::generateRandomGene(numStops,
-                                                   graph.getVertexCount(),
-                                                   closedRoute));
+      chromosome->addGene(Gene::generateRandomGene(
+          numStops, (int) graph->getVertexCount(), closedRoute));
     }
+    generation[i] = chromosome;
     costs[i] = chromosome->calculateCost(graph, passengers, routesCache);
   }
 }

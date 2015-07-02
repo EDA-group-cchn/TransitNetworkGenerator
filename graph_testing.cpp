@@ -30,7 +30,7 @@ int main() {
     cout<<endl;
   }
 
-  Dijkstra d(graph);
+  Dijkstra d(&graph);
   d.makeDijkstra(1);
   cout<<"\n\n"<<d.getWeight(1, 4)<<endl;
 
@@ -49,8 +49,8 @@ int main() {
   idx.push_back(4);
   idx.push_back(3);
   cout<<"----------\nSubgraph\n----------\n";
-  SubGraph sg(graph, idx);
-  Dijkstra ds(sg);
+  SubGraph sg(&graph, idx);
+  Dijkstra ds(&sg);
   
   
   for(int i = 0; i< sg.getVertexCount();i++)

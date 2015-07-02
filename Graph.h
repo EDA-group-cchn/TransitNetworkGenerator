@@ -14,17 +14,18 @@ protected:
 public:
   friend class IncidenceEdgeList;
   Graph() { }
-  Graph(int vertexCount, int edgeCount=0) : last((std::size_t)vertexCount, -1) {
+  Graph(std::size_t vertexCount, std::size_t edgeCount=0) :
+      last(vertexCount, -1) {
     if (edgeCount > 0) {
-      adj.reserve((std::size_t)edgeCount);
-      prev.reserve((std::size_t)edgeCount);
+      adj.reserve(edgeCount);
+      prev.reserve(edgeCount);
     }
   }
-  int getVertexCount() const {
-    return (int)last.size();
+  std::size_t getVertexCount() const {
+    return last.size();
   }
-  int getEdgeCount() const {
-    return (int)adj.size();
+  std::size_t getEdgeCount() const {
+    return adj.size();
   }
   int getAdjacentVertex(int edge) const {
     return adj[edge];
