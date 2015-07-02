@@ -9,7 +9,8 @@ std::vector<int> Gene::getVerticesList() const {
   return vertices;
 }
 
-Gene Gene::generateRandomGene(int vertexCount, int verticesNumber,  bool isClosed) {
+Gene Gene::generateRandomGene(int vertexCount, int verticesNumber,
+                              bool isClosed) {
   BitSet set;
 
   int tmp;
