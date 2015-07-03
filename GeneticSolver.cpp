@@ -9,6 +9,9 @@ std::vector<Route> GeneticSolver::solve(size_t numRoutes, size_t numIterations,
   distribution.resize(generationSize);
   #pragma omp parallel
   {
+    #pragma omp for schedule(static)
+    for (size_t i = 0; i < graph->getVertexCount(); ++i)
+      dijkstra.makeDijkstra((int) i);
     Random random;
     generateInitialPopulation(numRoutes, generationSize, random);
     for (int it = 0; it < numIterations; ++it)
@@ -37,7 +40,7 @@ void GeneticSolver::generateInitialPopulation(size_t numRoutes,
                                    closedRoute, random));
     }
     generation[i] = chromosome;
-    costs[i] = chromosome->calculateCost(graph, passengers, routesCache);
+    costs[i] = chromosome->calculateCost(&dijkstra, passengers, routesCache);
   }
 }
 
@@ -63,7 +66,7 @@ void GeneticSolver::generateNextPopulation(size_t generationSize,
     if (i == bestId) {  // conserving the best
       if (random.uniformInt(0, 99) < 2) {  // 2% chance of mutation
         nextGeneration[i] = doMutation(i, random);
-        nextCosts[i] = nextGeneration[i]->calculateCost(graph, passengers,
+        nextCosts[i] = nextGeneration[i]->calculateCost(&dijkstra, passengers,
                                                         routesCache);
       } else {
         nextGeneration[bestId] = new Chromosome(*generation[bestId]);
@@ -79,7 +82,7 @@ void GeneticSolver::generateNextPopulation(size_t generationSize,
         } while (j == i);
         nextGeneration[i] = doCrossOver(i, j, random);
       }
-      nextCosts[i] = nextGeneration[i]->calculateCost(graph, passengers,
+      nextCosts[i] = nextGeneration[i]->calculateCost(&dijkstra, passengers,
                                                       routesCache);
     }
   }

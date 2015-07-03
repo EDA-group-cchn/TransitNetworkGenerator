@@ -25,9 +25,9 @@ public:
   void addGene(const Gene &gene) {
     genes.push_back(gene);
   }
-  Graph generateSolutionGraph(const Graph *original,
+  Graph generateSolutionGraph(const Dijkstra *dijkstra,
                               RoutesCache &routesCache) const;
-  double calculateCost(const Graph *original,
+  double calculateCost(const Dijkstra *originalDijkstra,
                        const std::vector<Passenger> &passengers,
                        RoutesCache &routesCache) const;
 };

@@ -9,21 +9,15 @@
 class SubGraph : public Graph {
 private:
   std::vector<int> originalVertexId;
-  Dijkstra originalDijkstra;
-  const Graph *graph;
+  const Dijkstra *dijkstra;
 public:
-  SubGraph(const Graph *graph, std::vector<int> vertices) :
-      Graph(vertices.size()),
-      graph(graph),
-      originalVertexId(vertices.size(), -1),
-      originalDijkstra(graph) {
-    for (int i = 0 ; i < vertices.size(); ++i){
+  SubGraph(const Dijkstra *dijkstra, std::vector<int> vertices) :
+      Graph(vertices.size()), dijkstra(dijkstra),
+      originalVertexId(vertices.size(), -1) {
+    for (int i = 0; i < vertices.size(); ++i) {
       originalVertexId[i] = vertices[i];
-      originalDijkstra.makeDijkstra(vertices[i]);
-      for(int j = 0; j < vertices.size(); ++j){
-        addEdge(i, j,
-                originalDijkstra.getWeight(vertices[i],vertices[j]));
-      }
+      for (int j = 0; j < vertices.size(); ++j)
+        addEdge(i, j, dijkstra->getWeight(vertices[i], vertices[j]));
     }
   }
   int getOriginalVertexId(int vertex) const {

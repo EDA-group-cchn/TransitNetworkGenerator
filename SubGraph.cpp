@@ -10,7 +10,7 @@ Route SubGraph::getOriginalRoute(const Route &r)
 
     for (int e : edges) {
         tmp_to = getOriginalVertexId(getAdjacentVertex(e));
-        Route tmp_route = originalDijkstra.getPath(tmp_from, tmp_to);
+        Route tmp_route = dijkstra->getPath(tmp_from, tmp_to);
         edges_result.insert(edges_result.end(),
                             tmp_route.getEdgeList().begin(),
                             tmp_route.getEdgeList().end()) ;

@@ -43,8 +43,7 @@ void Dijkstra::makeDijkstra(index from)
   }
 }
 
-Route Dijkstra::getPath(index from, index to)
-{
+Route Dijkstra::getPath(index from, index to) const {
   index temp = to;
   std::vector<int> edges;
   while(temp != from)

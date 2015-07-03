@@ -19,6 +19,7 @@ private:
   std::vector<double> costs, nextCosts, distribution;
   const Graph *graph;
   const std::vector<Passenger> &passengers;
+  Dijkstra dijkstra;
   size_t bestId;
   void generateInitialPopulation(size_t numRoutes,
                                                 size_t generationSize,
@@ -29,7 +30,7 @@ private:
   size_t getBestSolutionId();
 public:
   GeneticSolver(const Graph *graph, const std::vector<Passenger> &passengers) :
-      graph(graph), passengers(passengers) { }
+      graph(graph), passengers(passengers), dijkstra(graph) { }
   std::vector<Route> solve(size_t numRoutes, size_t numIterations,
                            size_t generationSize);
   Chromosome *doMutation(size_t id, Random &random);

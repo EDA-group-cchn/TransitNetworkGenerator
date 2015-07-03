@@ -35,11 +35,15 @@ public:
 
   void makeDijkstra(index from);
 
-  weight getWeight(index from, index to){
+  weight getWeight(index from, index to) const {
     return dist[from][to];
   }
 
-  Route getPath(index from, index to);
+  Route getPath(index from, index to) const;
+
+  const Graph * getGraph() const {
+    return graph;
+  }
 
 };
 
