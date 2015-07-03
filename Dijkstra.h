@@ -14,24 +14,31 @@ private:
   typedef float weight;
   typedef int index;
   typedef int edge;
-  std::vector<std::vector<weight> > dist;
-  std::vector<std::vector< std::pair <index, edge > > > father;
+  weight **dist;
+  std::pair<index, edge> **father;
   const Graph *graph;
 
 public:
   Dijkstra(const Graph *graph) : graph(graph) {
     size_t n = graph->getVertexCount();
-    dist.resize(n);
-    father.resize(n);
-    for (size_t i = 0; i < n; ++i) {
-      father[i].resize(n);
-      dist[i].resize(n);
+    dist = new weight* [n];
+    father = new std::pair<index, edge>* [n];
+    dist[0] = new weight[n * n];
+    father[0] = new std::pair<index, edge> [n * n];
+    for (size_t i = 1; i < n; ++i) {
+      dist[i] = dist[i - 1] + n;
+      father[i] = father[i - 1] + n;
     }
   }
   Dijkstra(const Graph *graph, index from) : Dijkstra(graph) {
     makeDijkstra(from);
   }
-  ~Dijkstra(){}
+  ~Dijkstra() {
+    delete[] dist[0];
+    delete[] father[0];
+    delete[] dist;
+    delete[] father;
+  }
 
   void makeDijkstra(index from);
 

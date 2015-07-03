@@ -14,10 +14,8 @@ void Dijkstra::makeDijkstra(index from)
 
   std::vector<bool> seen(graph->getVertexCount());
 
-  for (int i = 0; i < graph->getVertexCount(); ++i) {
-    dist[from][i] = std::numeric_limits<float>::max();
-    father[from][i] = std::make_pair(-1,-1);
-  }
+  std::fill(dist[from], dist[from] + graph->getVertexCount(),
+            std::numeric_limits<float>::max());
 
   dist[from][from]  = 0;
   route_queue.push(std::make_pair(from, 0));
@@ -46,8 +44,7 @@ void Dijkstra::makeDijkstra(index from)
 Route Dijkstra::getPath(index from, index to) const {
   index temp = to;
   std::vector<int> edges;
-  while(temp != from)
-  {
+  while (temp != from) {
     edges.push_back(father[from][temp].second);
     temp = father[from][temp].first;
   }
