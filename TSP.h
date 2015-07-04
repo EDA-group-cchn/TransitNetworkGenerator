@@ -11,6 +11,7 @@ private:
   int **child;
   float **memo;
   const Graph *graph;
+  int startingVertex;
 
   float tsp(int pos, int bitMask, bool isClosed);
 public:

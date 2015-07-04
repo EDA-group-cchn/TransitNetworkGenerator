@@ -14,12 +14,14 @@ TSP::TSP(const Graph *graph) : graph(graph) {
 }
 
 std::vector<int> TSP::run(bool isClosed) {
-  int vertex = 0;
+  int vertex = startingVertex = 0;
   tsp(0, 1, isClosed);
   if (not isClosed) {  // we need to obtain the best starting point
-    for (int i = 1; i < graph->getVertexCount(); ++i)
-      if (tsp(i, 1 << i, isClosed) < memo[vertex][1 << vertex])
-        vertex = i;
+    for (startingVertex = 1; startingVertex < graph->getVertexCount();
+         ++startingVertex)
+      if (tsp(startingVertex, 1 << startingVertex, isClosed) <
+          memo[vertex][1 << vertex])
+        vertex = startingVertex;
   }
 
   std::vector<int> route{vertex};
@@ -39,12 +41,13 @@ float TSP::tsp(int pos, int bitMask, bool isClosed) {
 
   if (bitMask == (1 << graph->getVertexCount()) - 1) {
     if (isClosed) {
-      int e = graph->searchEdge(pos, 0);
-      child[pos][bitMask] = e;
-      return memo[pos][bitMask] = graph->getWeight(e);
+      int e = graph->searchEdge(pos, startingVertex);
+      child[pos][bitMask] = startingVertex;
+      memo[pos][bitMask] = graph->getWeight(e);
     } else {
-      return 0;
+      memo[pos][bitMask] = 0;
     }
+    return memo[pos][bitMask];
   }
 
   float ans = std::numeric_limits<float>::max(), tmp;
