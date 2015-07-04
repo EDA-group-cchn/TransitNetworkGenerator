@@ -25,7 +25,7 @@ int main() {
   }
 
   GeneticSolver solver(&graph, passengers);
-  vector<Route> solution = solver.solve(10, 120, 80);
+  vector<Route> solution = solver.solve(16, 120, 128);
 
   for (const Route &route : solution) {
     v = route.getFirstVertex();

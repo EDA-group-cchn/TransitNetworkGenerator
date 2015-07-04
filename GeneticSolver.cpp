@@ -33,7 +33,7 @@ void GeneticSolver::generateInitialPopulation(size_t numRoutes,
   for (int i = 0; i < generationSize; ++i) {
     Chromosome *chromosome = new Chromosome;
     for (int j = 0; j < numRoutes; ++j) {
-      size_t numStops = random.uniformInt(10ul, 17ul);
+      size_t numStops = random.uniformInt(12ul, 16ul);
       bool closedRoute = random.boolean();
       chromosome->addGene(
           Gene::generateRandomGene(numStops, graph->getVertexCount(),
