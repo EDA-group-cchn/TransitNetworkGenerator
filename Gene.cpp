@@ -24,11 +24,14 @@ Gene Gene::generateRandomGene(size_t vertexCount, size_t totalVertexCount,
   return gene;
 }
 
-Route Gene::calculateBestRoute(const Dijkstra *dijkstra) const {
+std::pair<Route, Route> Gene::calculateBestRoute(const Dijkstra *dijkstra) const {
   SubGraph subGraph(dijkstra, getVerticesList());
   TSP tsp(&subGraph);
   std::vector<int> route = tsp.run(isClosed);
-  return subGraph.getOriginalRoute(route);
+  Route route1 = subGraph.getOriginalRoute(route);
+  std::reverse(route.begin(), route.end());
+  Route route2 = subGraph.getOriginalRoute(route);
+  return std::make_pair(route1, route2);
 }
 
 Gene Gene::randomMutation(size_t vertexCount, Random &random) const {

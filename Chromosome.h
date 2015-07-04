@@ -12,6 +12,8 @@
 class Chromosome {
 private:
   std::vector<Gene> genes;
+  static double addRouteToGraph(const Graph *original, Graph *newGraph,
+                                const Route &r);
 public:
   Chromosome() { }
   Chromosome(const Chromosome &other) {

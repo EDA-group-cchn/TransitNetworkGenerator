@@ -4,28 +4,22 @@ std::pair<Graph, double> Chromosome::generateSolution(
     const Dijkstra *dijkstra,
     RoutesCache &routesCache) const {
   const Graph *original = dijkstra->getGraph();
-  Graph new_graph(original->getVertexCount());
+  Graph newGraph(original->getVertexCount());
   double maxRouteLength = 0;
   for (const Gene &g : genes) {
-    Route r;
+    std::pair<Route, Route> r;
     if (routesCache.check(g)) {
       r = routesCache.get(g);
     } else{
       r = g.calculateBestRoute(dijkstra);
       routesCache.add(g, r);
     }
-    int from = r.getFirstVertex();
-    std::vector<int> edges = r.getEdgeList();
-    double routeLength = 0;
-    for (int e : edges) {
-      routeLength += original->getWeight(e);
-      int to = original->getAdjacentVertex(e);
-      new_graph.addEdge(from, to, original->getWeight(e));
-      from = to;
-    }
-    maxRouteLength = std::max(maxRouteLength, routeLength);
+    double routeLength1 = addRouteToGraph(original, &newGraph, r.first),
+           routeLength2 = addRouteToGraph(original, &newGraph, r.second);
+    maxRouteLength = std::max(maxRouteLength,
+                              std::max(routeLength1, routeLength2));
   }
-  return std::make_pair(new_graph, maxRouteLength);
+  return std::make_pair(newGraph, maxRouteLength);
 }
 
 double Chromosome::calculateCost(const Dijkstra *originalDijkstra,
@@ -52,4 +46,18 @@ double Chromosome::calculateCost(const Dijkstra *originalDijkstra,
   }
 
   return meanCost * 0.35 + maxRouteLength * 0.65;
+}
+
+double Chromosome::addRouteToGraph(const Graph *original, Graph *newGraph,
+                                   const Route &route) {
+  int from = route.getFirstVertex();
+  std::vector<int> edges = route.getEdgeList();
+  double routeLength = 0;
+  for (int e : edges) {
+    routeLength += original->getWeight(e);
+    int to = original->getAdjacentVertex(e);
+    newGraph->addEdge(from, to, original->getWeight(e));
+    from = to;
+  }
+  return routeLength;
 }

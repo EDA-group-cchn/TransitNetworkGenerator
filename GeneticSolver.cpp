@@ -18,9 +18,12 @@ std::vector<Route> GeneticSolver::solve(size_t numRoutes, size_t numIterations,
       generateNextPopulation(generationSize, random);
   }
   Chromosome *solutionChromosome = generation[getBestSolutionId()];
-  std::vector<Route> solution(numRoutes);
-  for (size_t i = 0; i < numRoutes; ++i)
-    solution[i] = routesCache.get(solutionChromosome->getGene(i));
+  std::vector<Route> solution(numRoutes * 2);
+  for (size_t i = 0; i < numRoutes; ++i) {
+    std::pair<Route, Route> r = routesCache.get(solutionChromosome->getGene(i));
+    solution[2 * i] = r.first;
+    solution[2 * i + 1] = r.second;
+  }
   for (size_t i = 0; i < generationSize; ++i)
     delete generation[i];
   return solution;

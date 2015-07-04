@@ -29,7 +29,7 @@ public:
   std::vector<int> getVerticesList() const;
   static Gene generateRandomGene(size_t vertexCount, size_t totalVertexCount,
                                  bool isClosed, Random &random);
-  Route calculateBestRoute(const Dijkstra *dijkstra) const;
+  std::pair<Route, Route> calculateBestRoute(const Dijkstra *dijkstra) const;
   Gene randomMutation(size_t vertexCount, Random &random) const;
 };
 

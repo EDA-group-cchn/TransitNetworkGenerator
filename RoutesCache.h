@@ -11,7 +11,7 @@
 class RoutesCache {
 private:
   omp_lock_t lock;
-  std::unordered_map<Gene, Route> cache;
+  std::unordered_map<Gene, std::pair<Route, Route>> cache;
 public:
   RoutesCache() {
     omp_init_lock(&lock);
@@ -22,14 +22,14 @@ public:
     omp_unset_lock(&lock);
     return found;
   }
-  void add(const Gene &gene, const Route &route) {
+  void add(const Gene &gene, const std::pair<Route, Route> &route) {
     omp_set_lock(&lock);
     cache[gene] = route;
     omp_unset_lock(&lock);
   }
-  Route get(const Gene &gene) {
+  std::pair<Route, Route> get(const Gene &gene) {
     omp_set_lock(&lock);
-    Route route = cache[gene];
+    std::pair<Route, Route> route = cache[gene];
     omp_unset_lock(&lock);
     return route;
   }
