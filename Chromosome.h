@@ -2,6 +2,7 @@
 #define TRANSIT_CHROMOSOME_H
 
 #include <vector>
+#include <limits>
 
 #include "RoutesCache.h"
 #include "Gene.h"
@@ -25,8 +26,8 @@ public:
   void addGene(const Gene &gene) {
     genes.push_back(gene);
   }
-  Graph generateSolutionGraph(const Dijkstra *dijkstra,
-                              RoutesCache &routesCache) const;
+  std::pair<Graph, double> generateSolution(const Dijkstra *dijkstra,
+                                            RoutesCache &routesCache) const;
   double calculateCost(const Dijkstra *originalDijkstra,
                        const std::vector<Passenger> &passengers,
                        RoutesCache &routesCache) const;

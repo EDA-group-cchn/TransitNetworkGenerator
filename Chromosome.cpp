@@ -1,10 +1,11 @@
-#include <limits>
 #include "Chromosome.h"
 
-Graph Chromosome::generateSolutionGraph(const Dijkstra *dijkstra,
-                                        RoutesCache &routesCache) const {
+std::pair<Graph, double> Chromosome::generateSolution(
+    const Dijkstra *dijkstra,
+    RoutesCache &routesCache) const {
   const Graph *original = dijkstra->getGraph();
   Graph new_graph(original->getVertexCount());
+  double maxRouteLength = 0;
   for (const Gene &g : genes) {
     Route r;
     if (routesCache.check(g)) {
@@ -15,19 +16,25 @@ Graph Chromosome::generateSolutionGraph(const Dijkstra *dijkstra,
     }
     int from = r.getFirstVertex();
     std::vector<int> edges = r.getEdgeList();
+    double routeLength = 0;
     for (int e : edges) {
+      routeLength += original->getWeight(e);
       int to = original->getAdjacentVertex(e);
       new_graph.addEdge(from, to, original->getWeight(e));
       from = to;
     }
+    maxRouteLength = std::max(maxRouteLength, routeLength);
   }
-  return new_graph;
+  return std::make_pair(new_graph, maxRouteLength);
 }
 
 double Chromosome::calculateCost(const Dijkstra *originalDijkstra,
                                  const std::vector<Passenger> &passengers,
                                  RoutesCache &routesCache) const {
-  Graph solutionGraph = generateSolutionGraph(originalDijkstra, routesCache);
+  auto solution = generateSolution(originalDijkstra, routesCache);
+  Graph &solutionGraph = solution.first;
+  double &maxRouteLength = solution.second;
+
   Dijkstra dijkstra(&solutionGraph);
   for (int i = 0; i < solutionGraph.getVertexCount(); ++i)
     dijkstra.makeDijkstra(i);
@@ -40,8 +47,9 @@ double Chromosome::calculateCost(const Dijkstra *originalDijkstra,
       cost += passenger.getBusStopStartDistance() +
           passenger.getBusStopEndDistance();
     else
-      cost = meanCost + 100; // a penalty for not serving this passenger
+      cost = meanCost + 30; // a penalty for not serving this passenger
     meanCost = (meanCost * i + cost) / (i + 1);
   }
-  return meanCost;
+
+  return meanCost * 0.55 + maxRouteLength * 0.45;
 }
