@@ -1,21 +1,17 @@
 #include "SubGraph.h"
 
 
-Route SubGraph::getOriginalRoute(const Route &r)
+Route SubGraph::getOriginalRoute(const std::vector<int> &r)
 {
-    std::vector<int> edges = r.getEdgeList();
-    std::vector<int> edges_result;
-    int from = getOriginalVertexId(r.getFirstVertex());
-    int tmp_from = from, tmp_to;
+  std::vector<int> edges_result;
+  int from = getOriginalVertexId(r[0]);
 
-    for (int e : edges) {
-        tmp_to = getOriginalVertexId(getAdjacentVertex(e));
-        Route tmp_route = dijkstra->getPath(tmp_from, tmp_to);
-        edges_result.insert(edges_result.end(),
-                            tmp_route.getEdgeList().begin(),
-                            tmp_route.getEdgeList().end()) ;
-        tmp_from = tmp_to;
-    }
+  for (size_t i = 1; i < r.size(); ++i) {
+    Route tmp_route = dijkstra->getPath(r[i-1], r[i]);
+    edges_result.insert(edges_result.end(),
+                        tmp_route.getEdgeList().begin(),
+                        tmp_route.getEdgeList().end()) ;
+  }
 
-    return Route(from, edges_result);
+  return Route(from, edges_result);
 }

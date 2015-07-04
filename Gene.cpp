@@ -27,7 +27,7 @@ Gene Gene::generateRandomGene(size_t vertexCount, size_t totalVertexCount,
 Route Gene::calculateBestRoute(const Dijkstra *dijkstra) const {
   SubGraph subGraph(dijkstra, getVerticesList());
   TSP tsp(&subGraph);
-  Route route = tsp.run(isClosed);
+  std::vector<int> route = tsp.run(isClosed);
   return subGraph.getOriginalRoute(route);
 }
 

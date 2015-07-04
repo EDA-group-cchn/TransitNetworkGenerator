@@ -24,7 +24,7 @@ public:
     return originalVertexId[vertex];
   }
   
-  Route getOriginalRoute(const Route &r);
+  Route getOriginalRoute(const std::vector<int> &r);
 };
 
 

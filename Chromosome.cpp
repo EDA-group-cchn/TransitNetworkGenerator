@@ -51,5 +51,5 @@ double Chromosome::calculateCost(const Dijkstra *originalDijkstra,
     meanCost = (meanCost * i + cost) / (i + 1);
   }
 
-  return meanCost * 0.55 + maxRouteLength * 0.45;
+  return meanCost * 0.35 + maxRouteLength * 0.65;
 }

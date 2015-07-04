@@ -13,17 +13,24 @@ TSP::TSP(const Graph *graph) : graph(graph) {
   std::fill(memo[0], memo[0] + n * (1 << n), -1);
 }
 
-Route TSP::run(bool isClosed){
+std::vector<int> TSP::run(bool isClosed) {
+  int vertex = 0;
   tsp(0, 1, isClosed);
-  std::vector<int> route;
+  if (not isClosed) {  // we need to obtain the best starting point
+    for (int i = 1; i < graph->getVertexCount(); ++i)
+      if (tsp(i, 1 << i, isClosed) < memo[vertex][1 << vertex])
+        vertex = i;
+  }
 
-  int vertex = 0, mask = 1;
+  std::vector<int> route{vertex};
+  int mask = 1 << vertex;
   for (int i = 1; i < graph->getVertexCount() + isClosed; ++i) {
     route.push_back(child[vertex][mask]);
-    vertex = graph->getAdjacentVertex(child[vertex][mask]);
+    vertex = child[vertex][mask];
     mask |= 1 << vertex;
   }
-  return Route(0, route);
+
+  return route;
 }
 
 float TSP::tsp(int pos, int bitMask, bool isClosed) {
@@ -47,7 +54,7 @@ float TSP::tsp(int pos, int bitMask, bool isClosed) {
       tmp = graph->getWeight(e) + tsp(nxt, bitMask | (1 << nxt), isClosed);
       if (ans > tmp) {
         ans = tmp;
-        child[pos][bitMask] = e;
+        child[pos][bitMask] = nxt;
       }
     }
   }

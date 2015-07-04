@@ -17,7 +17,7 @@ public:
   TSP(const Graph *graph);
   ~TSP();
 
-  Route run(bool isClosed);
+  std::vector<int> run(bool isClosed);
 };
 
 
